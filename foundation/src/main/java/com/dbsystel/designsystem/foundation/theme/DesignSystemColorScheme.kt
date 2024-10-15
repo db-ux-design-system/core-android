@@ -1,8 +1,8 @@
-package com.dbsystel.designsystem.foundation
+package com.dbsystel.designsystem.foundation.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import com.dbsystel.designsystem.foundation.deutschebahn.data.DeutscheBahnColorMap
+import com.dbsystel.designsystem.foundation.theme.deutschebahn.data.DeutscheBahnColorMap
 
 interface IStateColor {
     val Default: Color
@@ -252,7 +252,7 @@ class AdaptiveColors private constructor(
           override val Pressed = onOriginPressed
     }
 
-	companion object {
+	internal companion object {
 		fun dark(colorMap: Map<String, Color>, colorName: String) = AdaptiveColors(
 			colorMap.getValue(colorName + 3),
 			colorMap.getValue(colorName + 4),
@@ -378,7 +378,7 @@ class DesignSystemColorScheme(
 	val green: AdaptiveColors,
 )
 
-fun getColorSchemeDark(colorMap: Map<String, Color>): DesignSystemColorScheme =
+internal fun getColorSchemeDark(colorMap: Map<String, Color>): DesignSystemColorScheme =
 	DesignSystemColorScheme(
 		neutral = AdaptiveColors.dark(colorMap, "neutral"),
 		brand = AdaptiveColors.dark(colorMap, "brand"),
@@ -397,7 +397,7 @@ fun getColorSchemeDark(colorMap: Map<String, Color>): DesignSystemColorScheme =
 		green = AdaptiveColors.dark(colorMap, "green"),
 	)
 
-fun getColorSchemeLight(colorMap: Map<String, Color>): DesignSystemColorScheme =
+internal fun getColorSchemeLight(colorMap: Map<String, Color>): DesignSystemColorScheme =
 	DesignSystemColorScheme(
 		neutral = AdaptiveColors.light(colorMap, "neutral"),
 		brand = AdaptiveColors.light(colorMap, "brand"),

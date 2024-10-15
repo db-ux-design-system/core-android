@@ -1,4 +1,4 @@
-package com.dbsystel.designsystem.foundation
+package com.dbsystel.designsystem.foundation.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,8 +14,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.core.view.WindowCompat
-import com.dbsystel.designsystem.foundation.core.Density
-import com.dbsystel.designsystem.foundation.deutschebahn.DeutscheBahnTheme
+import com.dbsystel.designsystem.foundation.theme.core.Density
+import com.dbsystel.designsystem.foundation.theme.deutschebahn.DeutscheBahnTheme
 
 
 object DesignSystemTheme {
@@ -53,7 +53,7 @@ fun DesignSystemTheme(
     theme: Theme = DeutscheBahnTheme,
     density: Density = Density.REGULAR,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     // typography

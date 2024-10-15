@@ -1,11 +1,11 @@
-package com.dbsystel.designsystem.foundation
+package com.dbsystel.designsystem.foundation.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
-import com.dbsystel.designsystem.foundation.core.Fonts
-import com.dbsystel.designsystem.foundation.deutschebahn.data.DeutscheBahnTypographyMap
+import com.dbsystel.designsystem.foundation.theme.core.Fonts
+import com.dbsystel.designsystem.foundation.theme.deutschebahn.data.DeutscheBahnTypographyMap
 
 class Typography private constructor(
 	val lineHeight3xs: TextUnit,
@@ -27,7 +27,7 @@ class Typography private constructor(
 	val lineHeight3xl: TextUnit,
 	val fontSize3xl: TextUnit,
 ) {
-    companion object {
+    internal companion object {
         fun create(
             typographyMap: Map<String, TextUnit>,
             typoVariant: String,
@@ -59,12 +59,12 @@ class Typography private constructor(
 }
 
 data class DesignSystemTypography(
-	val body: Typography,
-	val headline: Typography,
+    val body: Typography,
+    val headline: Typography,
 )
 
 
-fun getTypographyFunctionalMobile(
+internal fun getTypographyFunctionalMobile(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Functional", "Mobile"),
@@ -72,7 +72,7 @@ fun getTypographyFunctionalMobile(
 )
 
 
-fun getTypographyFunctionalTablet(
+internal fun getTypographyFunctionalTablet(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Functional", "Tablet"),
@@ -80,7 +80,7 @@ fun getTypographyFunctionalTablet(
 )
 
 
-fun getTypographyRegularMobile(
+internal fun getTypographyRegularMobile(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Regular", "Mobile"),
@@ -88,7 +88,7 @@ fun getTypographyRegularMobile(
 )
 
 
-fun getTypographyRegularTablet(
+internal fun getTypographyRegularTablet(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Regular", "Tablet"),
@@ -96,7 +96,7 @@ fun getTypographyRegularTablet(
 )
 
 
-fun getTypographyExpressiveMobile(
+internal fun getTypographyExpressiveMobile(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Expressive", "Mobile"),
@@ -104,7 +104,7 @@ fun getTypographyExpressiveMobile(
 )
 
 
-fun getTypographyExpressiveTablet(
+internal fun getTypographyExpressiveTablet(
     typographyMap: Map<String, TextUnit>,
 ): DesignSystemTypography = DesignSystemTypography(
 	body = Typography.create(typographyMap, "body", "Expressive", "Tablet"),
@@ -130,7 +130,7 @@ data class DesignSystemTextStyles(
 	val body3xs: TextStyle,
 )
 
-fun getTextStyles(typo: DesignSystemTypography): DesignSystemTextStyles =
+internal fun getTextStyles(typo: DesignSystemTypography): DesignSystemTextStyles =
     DesignSystemTextStyles(
         TextStyle(
             fontFamily = Fonts.dbFlex,

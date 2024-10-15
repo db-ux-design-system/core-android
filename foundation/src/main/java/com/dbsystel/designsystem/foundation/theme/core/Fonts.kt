@@ -1,4 +1,4 @@
-package com.dbsystel.designsystem.foundation.core
+package com.dbsystel.designsystem.foundation.theme.core
 
 import com.dbsystel.designsystem.foundation.R
 import androidx.compose.ui.text.font.FontFamily

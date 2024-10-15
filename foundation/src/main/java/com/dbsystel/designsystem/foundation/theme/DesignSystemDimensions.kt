@@ -1,8 +1,8 @@
-package com.dbsystel.designsystem.foundation
+package com.dbsystel.designsystem.foundation.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
-import com.dbsystel.designsystem.foundation.deutschebahn.data.DeutscheBahnDimensionsMap
+import com.dbsystel.designsystem.foundation.theme.deutschebahn.data.DeutscheBahnDimensionsMap
 
 class SpacingDimensions private constructor(
 	val responsive3xs: Dp,
@@ -24,7 +24,7 @@ class SpacingDimensions private constructor(
 	val fixed2xl: Dp,
 	val fixed3xl: Dp,
 ) {
-	constructor(dimensionsMap: Map<String, Dp>, density: String, device: String) : this(
+	internal constructor(dimensionsMap: Map<String, Dp>, density: String, device: String) : this(
 		dimensionsMap.getValue("spacingResponsive${density}${device}3xs"),
 		dimensionsMap.getValue("spacingResponsive${density}${device}2xs"),
 		dimensionsMap.getValue("spacingResponsive${density}${device}Xs"),
@@ -57,7 +57,7 @@ class SizingDimensions private constructor(
 	val base2xl: Dp,
 	val base3xl: Dp,
 ) {
-	constructor(dimensionsMap: Map<String, Dp>, density: String) : this(
+	internal constructor(dimensionsMap: Map<String, Dp>, density: String) : this(
 		dimensionsMap.getValue("sizing${density}3xs"),
 		dimensionsMap.getValue("sizing${density}2xs"),
 		dimensionsMap.getValue("sizing${density}Xs"),
@@ -90,7 +90,7 @@ class BorderDimensions private constructor(
 	val radius2xl: Dp,
 	val radius3xl: Dp,
 ) {
-	constructor(dimensionsMap: Map<String, Dp>, ) : this(
+	internal constructor(dimensionsMap: Map<String, Dp>, ) : this(
 		dimensionsMap.getValue("borderHeight3xs"),
 		dimensionsMap.getValue("borderHeight2xs"),
 		dimensionsMap.getValue("borderHeightXs"),
@@ -118,7 +118,7 @@ data class DesignSystemDimensions(
 	val border: BorderDimensions,
 )
 
-fun getDimensionsFunctionalMobile(
+internal fun getDimensionsFunctionalMobile(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Functional", "Mobile"),
@@ -126,7 +126,7 @@ fun getDimensionsFunctionalMobile(
 	border = BorderDimensions(dimensionsMap, ),
 )
 
-fun getDimensionsFunctionalTablet(
+internal fun getDimensionsFunctionalTablet(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Functional", "Tablet"),
@@ -134,7 +134,7 @@ fun getDimensionsFunctionalTablet(
 	border = BorderDimensions(dimensionsMap, ),
 )
 
-fun getDimensionsRegularMobile(
+internal fun getDimensionsRegularMobile(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Regular", "Mobile"),
@@ -142,7 +142,7 @@ fun getDimensionsRegularMobile(
 	border = BorderDimensions(dimensionsMap, ),
 )
 
-fun getDimensionsRegularTablet(
+internal fun getDimensionsRegularTablet(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Regular", "Tablet"),
@@ -150,7 +150,7 @@ fun getDimensionsRegularTablet(
 	border = BorderDimensions(dimensionsMap, ),
 )
 
-fun getDimensionsExpressiveMobile(
+internal fun getDimensionsExpressiveMobile(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Expressive", "Mobile"),
@@ -158,7 +158,7 @@ fun getDimensionsExpressiveMobile(
 	border = BorderDimensions(dimensionsMap, ),
 )
 
-fun getDimensionsExpressiveTablet(
+internal fun getDimensionsExpressiveTablet(
     dimensionsMap: Map<String, Dp>,
 ): DesignSystemDimensions = DesignSystemDimensions(
 	spacing = SpacingDimensions(dimensionsMap, "Expressive", "Tablet"),

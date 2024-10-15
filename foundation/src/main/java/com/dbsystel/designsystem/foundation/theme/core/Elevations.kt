@@ -1,4 +1,4 @@
-package com.dbsystel.designsystem.foundation.core
+package com.dbsystel.designsystem.foundation.theme.core
   
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,14 +63,14 @@ fun Modifier.dbShadow(
     }.let { modifier -> if (clip) modifier.clip(shape) else modifier }
 }
 
-data class ElevationConfig(
+internal data class ElevationConfig(
     val offset: DpOffset,
     val blur: Dp,
     val spread: Dp,
     val color: Color,
 )
 
-enum class Elevation(val config: List<ElevationConfig>) {
+enum class Elevation(internal val config: List<ElevationConfig>) {
     SM(
         listOf(
             ElevationConfig(DpOffset(0.dp, 0.dp), 1.dp, (-1).dp, Color(0f, 0f, 0f, 0.2f)),
