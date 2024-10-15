@@ -43,16 +43,16 @@ A standardized naming convention is essential for achieving clear identification
 - **Cons:** Adds an extra layer of nesting, which can make usage more verbose and may affect readability.
 
 ## Decision
-We will adopt **Option A - Company-Specific Prefix (`DB` for Deutsche Bahn)**. This approach ensures unique identification, reinforces brand recognition, and provides consistency with our established design system. It balances the need to prevent naming collisions while supporting a modular and scalable design system.
+We will adopt **Option B - Neutral Prefix (e.g., `DS` for Design System)**. This approach ensures unique identification, also reinforces brand recognition, and provides consistency with our established design system. It balances the need to prevent naming collisions while supporting a modular and scalable design system.
 
 ## Consequences
-- **Positive:** The naming convention will provide clarity and consistency, ensuring easy integration and maintenance. A company-specific prefix enhances brand recognition and avoids naming collisions. Ending names with the component type aligns with Jetpack Compose standards, improving developer experience.
-- **Negative:** Initial transition to the new naming convention may require updates to existing components and documentation.
+- **Positive:** The naming convention will provide clarity and consistency, ensuring easy integration and maintenance. The use of an neutral prefix avoids naming collisions.
+- **Negative:** Initial transition to the new naming convention may require updates to existing components and documentation. Less immediate brand recognition for Deutsche Bahn.
 
 By implementing this naming convention, we ensure that our UX Design System remains clear, consistent, and scalable, providing an excellent developer experience and facilitating its adoption across various projects and organizations.
 
 ## Naming Convention Guidelines
-1. **Prefix with `DB` (Deutsche Bahn):** All components and accessors will be prefixed with `DB`.
+1. **Prefix with `DS` (Design System):** All components and accessors will be prefixed with `DS`.
 3. **Short and Concise:** Names should be as short as possible while still clearly conveying the component's purpose.
 4. **Alignment with Jetpack Compose:** Follow Jetpack Compose naming conventions to enhance familiarity and ease of use.
 5. **Modular and Extensible:** Ensure the structure supports the addition of new components without breaking the established pattern.
@@ -61,18 +61,18 @@ By adhering to this naming convention, we ensure that our components are easily 
 
 ## Example Code
 
-### Design Tokens (foundation/Colors.kt)
+### Design Tokens (foundation/DSColors.kt)
 ```kotlin
 import androidx.compose.ui.graphics.Color
 
-object DBColors {
+object DSColors {
     val primary = Color(0xFF0000FF)
     val secondary = Color(0xFF00FF00)
     // Additional colors...
 }
 ```
 
-### Components/TextField.kt
+### Components/DSTextField.kt
 ```kotlin
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
@@ -82,7 +82,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DBTextField(
+fun DSTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -94,7 +94,7 @@ fun DBTextField(
         modifier = modifier,
         decorationBox = { innerTextField ->
             if (value.isEmpty()) {
-                Text(placeholder, color = DBColors.secondary)
+                Text(placeholder, color = DSColors.secondary)
             }
             innerTextField()
         }
@@ -102,7 +102,7 @@ fun DBTextField(
 }
 ```
 
-### Modifiers/TextFieldModifier.kt
+### Modifiers/DSTextFieldModifier.kt
 ```kotlin
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -112,8 +112,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 
-fun Modifier.dbTextFieldStyle(): Modifier = this
+fun Modifier.dsTextFieldStyle(): Modifier = this
     .padding(8.dp)
-    .background(DBColors.secondary)
+    .background(DSColors.secondary)
     .clip(RectangleShape)
 ```

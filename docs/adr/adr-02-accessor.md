@@ -81,7 +81,7 @@ We choose **Alternative C - Dynamic Styling via Composition Local**. This approa
         @ReadOnlyComposable
         get() = LocalColors.current
 
-    val activeColor: AdaptiveColors
+    val activeColor: DSColorVariant
         @Composable
         @ReadOnlyComposable
         get() = LocalActiveColor.current
@@ -91,7 +91,7 @@ We choose **Alternative C - Dynamic Styling via Composition Local**. This approa
 
    @Composable
    fun DesignSystemTheme(
-      density: Density = Density.REGULAR,
+      density: DSDensity = DSDensity.REGULAR,
       darkTheme: Boolean = isSystemInDarkTheme(),
       content: @Composable () -> Unit
    ) {
@@ -131,14 +131,14 @@ We choose **Alternative C - Dynamic Styling via Composition Local**. This approa
    ```kotlin
    @Composable
    fun AdaptiveLayout(
-      density: Density = Density.REGULAR,
-      adaptiveColors: AdaptiveColors = DesignSystemTheme.colors.neutral,
+      density: DSDensity = DSDensity.REGULAR,
+      activeColor: DSColorVariant = DesignSystemTheme.colors.neutral,
       content: @Composable () -> Unit,
    ) {
       // Same logic for typography and density as shown in 2.
 
       CompositionLocalProvider(
-         LocalActiveColor provides adaptiveColors,
+         LocalActiveColor provides activeColor,
          // Same for typography and dimensions
       ) {
          content()
@@ -151,8 +151,8 @@ We choose **Alternative C - Dynamic Styling via Composition Local**. This approa
    @Composable
    fun CriticalExpressiveView() {
        AdaptiveLayout(
-           density = Density.EXPRESSIVE,
-           adaptiveColors = DesignSystemTheme.colors.critical,
+           density = DSDensity.EXPRESSIVE,
+           activeColor = DesignSystemTheme.colors.critical,
        ) {
            StyledText("Hello world!")
        }

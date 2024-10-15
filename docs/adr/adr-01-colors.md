@@ -63,7 +63,7 @@ By implementing this approach, we ensure that our color tokens are clear, consis
 
 2. **Define ColorScheme Using Color Tokens:**
    ```kotlin
-   class AdaptiveColors private constructor(
+   class DSColorVariant private constructor(
        val bgBasicLevel1Default: Color,
        val bgBasicLevel1Hovered: Color,
        val bgBasicLevel1Pressed: Color,
@@ -74,7 +74,7 @@ By implementing this approach, we ensure that our color tokens are clear, consis
            // ...
    ) {
     companion object {
-       fun dark(colorName: String) = AdaptiveColors(
+       fun dark(colorName: String) = DSColorVariant(
            DBColorMap.getValue(colorName + "3"),
            DBColorMap.getValue(colorName + "4"),
            DBColorMap.getValue(colorName + "5"),
@@ -84,7 +84,7 @@ By implementing this approach, we ensure that our color tokens are clear, consis
            DBColorMap.getValue(colorName + "1"),
            // ...
        )
-       fun light(colorName: String) = AdaptiveColors(
+       fun light(colorName: String) = DSColorVariant(
            DBColorMap.getValue(colorName + "14"),
            DBColorMap.getValue(colorName + "13"),
            DBColorMap.getValue(colorName + "12"),
@@ -100,7 +100,7 @@ By implementing this approach, we ensure that our color tokens are clear, consis
 
 3. **Instantiate ColorScheme:**
    ```kotlin
-   val NeutralColorsDark = AdaptiveColors.dark("neutral")
-   val BrandColorsDark = AdaptiveColors.dark("brand")
-   val InformationalColorsDark = AdaptiveColors.dark("informational")
+   val NeutralColorsDark = DSColorVariant.dark("neutral")
+   val BrandColorsDark = DSColorVariant.dark("brand")
+   val InformationalColorsDark = DSColorVariant.dark("informational")
    ```
