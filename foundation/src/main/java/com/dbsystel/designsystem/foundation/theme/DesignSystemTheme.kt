@@ -14,7 +14,22 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.core.view.WindowCompat
-import com.dbsystel.designsystem.foundation.theme.core.Density
+import com.dbsystel.designsystem.foundation.theme.DesignSystemColorScheme.Companion.getColorSchemeDark
+import com.dbsystel.designsystem.foundation.theme.DesignSystemColorScheme.Companion.getColorSchemeLight
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsExpressiveMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsExpressiveTablet
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsFunctionalMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsFunctionalTablet
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsRegularMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemDimensions.Companion.getDimensionsRegularTablet
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTextStyles.Companion.getTextStyles
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyExpressiveMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyExpressiveTablet
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyFunctionalMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyFunctionalTablet
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyRegularMobile
+import com.dbsystel.designsystem.foundation.theme.DesignSystemTypography.Companion.getTypographyRegularTablet
+import com.dbsystel.designsystem.foundation.theme.core.DSDensity
 import com.dbsystel.designsystem.foundation.theme.deutschebahn.DeutscheBahnTheme
 
 
@@ -24,7 +39,7 @@ object DesignSystemTheme {
         @ReadOnlyComposable
         get() = LocalColors.current
 
-    val activeColor: AdaptiveColors
+    val activeColor: DSColorVariant
         @Composable
         @ReadOnlyComposable
         get() = LocalActiveColor.current
@@ -40,50 +55,50 @@ object DesignSystemTheme {
         get() = LocalTypography.current
 }
 
-interface Theme {
+interface DSTheme {
     val colorMap: Map<String, Color>
     val dimensionsMap: Map<String, Dp>
     val typographyMap: Map<String, TextUnit>
 }
 
-internal val LocalTheme = staticCompositionLocalOf<Theme> { DeutscheBahnTheme }
+internal val LocalTheme = staticCompositionLocalOf<DSTheme> { DeutscheBahnTheme }
 
 @Composable
 fun DesignSystemTheme(
-    theme: Theme = DeutscheBahnTheme,
-    density: Density = Density.REGULAR,
+    theme: DSTheme = DeutscheBahnTheme,
+    density: DSDensity = DSDensity.REGULAR,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val configuration = LocalConfiguration.current
+    val isTablet = LocalConfiguration.current.screenWidthDp > 768
     // typography
-    val typography: DesignSystemTextStyles = when {
-        configuration.screenWidthDp > 768 ->
+    val typography: DesignSystemTextStyles = when (isTablet) {
+        true ->
             when (density) {
-                Density.FUNCTIONAL -> getTextStyles(getTypographyFunctionalTablet(theme.typographyMap))
-                Density.EXPRESSIVE -> getTextStyles(getTypographyExpressiveTablet(theme.typographyMap))
+                DSDensity.FUNCTIONAL -> getTextStyles(getTypographyFunctionalTablet(theme.typographyMap))
+                DSDensity.EXPRESSIVE -> getTextStyles(getTypographyExpressiveTablet(theme.typographyMap))
                 else -> getTextStyles(getTypographyRegularTablet(theme.typographyMap))
             }
 
         else -> when (density) {
-            Density.FUNCTIONAL -> getTextStyles(getTypographyFunctionalMobile(theme.typographyMap))
-            Density.EXPRESSIVE -> getTextStyles(getTypographyExpressiveMobile(theme.typographyMap))
+            DSDensity.FUNCTIONAL -> getTextStyles(getTypographyFunctionalMobile(theme.typographyMap))
+            DSDensity.EXPRESSIVE -> getTextStyles(getTypographyExpressiveMobile(theme.typographyMap))
             else -> getTextStyles(getTypographyRegularMobile(theme.typographyMap))
         }
     }
 
     // screen
-    val dimensions: DesignSystemDimensions = when {
-        configuration.screenWidthDp > 768 ->
+    val dimensions: DesignSystemDimensions = when (isTablet) {
+        true ->
             when (density) {
-                Density.FUNCTIONAL -> getDimensionsFunctionalTablet(theme.dimensionsMap)
-                Density.EXPRESSIVE -> getDimensionsExpressiveTablet(theme.dimensionsMap)
+                DSDensity.FUNCTIONAL -> getDimensionsFunctionalTablet(theme.dimensionsMap)
+                DSDensity.EXPRESSIVE -> getDimensionsExpressiveTablet(theme.dimensionsMap)
                 else -> getDimensionsRegularTablet(theme.dimensionsMap)
             }
 
         else -> when (density) {
-            Density.FUNCTIONAL -> getDimensionsFunctionalMobile(theme.dimensionsMap)
-            Density.EXPRESSIVE -> getDimensionsExpressiveMobile(theme.dimensionsMap)
+            DSDensity.FUNCTIONAL -> getDimensionsFunctionalMobile(theme.dimensionsMap)
+            DSDensity.EXPRESSIVE -> getDimensionsExpressiveMobile(theme.dimensionsMap)
             else -> getDimensionsRegularMobile(theme.dimensionsMap)
         }
     }
@@ -107,7 +122,7 @@ fun DesignSystemTheme(
         LocalTheme provides theme,
         LocalColors provides colorScheme,
         LocalDimensions provides dimensions,
-        LocalTypography provides typography
+        LocalTypography provides typography,
     ) {
         content()
     }
