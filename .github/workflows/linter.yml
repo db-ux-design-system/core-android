@@ -1,7 +1,11 @@
 ---
 name: Linting
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
 
 jobs:
   build:
@@ -18,7 +22,7 @@ jobs:
         uses: articulate/actions-markdownlint@v1.1.0
         with:
           config: '.markdownlint.json'
-        
+
       - name: Lint yaml
         uses: ibiqlik/action-yamllint@v3.1.1
 
