@@ -26,16 +26,18 @@ jobs:
       - name: Lint yaml
         uses: ibiqlik/action-yamllint@v3.1.1
 
-      - name: set up JDK
+      - name: Set up JDK
         uses: actions/setup-java@v4.4.0
         with:
           distribution: zulu
           java-version: 21
           cache: gradle
       - run: ./gradlew lint
-      - uses: yutailang0119/action-android-lint@v4
+      - name: Lint Foundation module
+        uses: yutailang0119/action-android-lint@v4
         with:
           report-path: foundation/build/reports/*.xml
-      - uses: yutailang0119/action-android-lint@v4
+      - name: Lint Components module
+        uses: yutailang0119/action-android-lint@v4
         with:
           report-path: components/build/reports/*.xml
