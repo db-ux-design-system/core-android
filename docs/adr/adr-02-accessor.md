@@ -108,7 +108,8 @@ through the Compose tree.
 
    ```kotlin
    val LocalColors = staticCompositionLocalOf { getColorSchemeLight() }
-   val LocalActiveColor = staticCompositionLocalOf { getColorSchemeLight().neutral }
+   val LocalActiveColor = 
+        staticCompositionLocalOf { getColorSchemeLight().neutral }
    ```
 
 2. **Make it accessible via theme accessor:**

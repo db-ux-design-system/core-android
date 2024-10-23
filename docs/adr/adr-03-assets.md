@@ -141,7 +141,10 @@ VectorDrawables beforehand.
    ```kotlin
    @Composable
    fun ExampleUsage() {
-       VectorIconLoader(iconRes = R.drawable.ic_functional, contentDescription = "Functional Icon")
+       VectorIconLoader(
+           iconRes = R.drawable.ic_functional,
+           contentDescription = "Functional Icon",
+       )
        DirectoryCustomText(text = "Hello, Compose!")
    }
    ```
