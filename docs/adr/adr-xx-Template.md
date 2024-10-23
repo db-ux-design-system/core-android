@@ -10,17 +10,17 @@
 
 ### Decision criteria
 
--   ...
+* ...
 
 ## Alternatives
 
 ### A - Alternative name
 
-#### Evaluation
+#### Evaluation A
 
 ### B - Alternative name
 
-#### Evaluation
+#### Evaluation B
 
 ## Consequences
 
