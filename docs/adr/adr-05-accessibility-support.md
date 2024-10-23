@@ -23,12 +23,12 @@ features such as TalkBack, font size adjustments, high contrast text, and more.
   auditory, motor, and cognitive disabilities.
 * **Platforms Supported:** Primarily Android.
 * **Native Accessibility Features to be Supported:**
-    * TalkBack
-    * Font size adjustments (Text Scaling)
-    * High contrast text
-    * Reduce motion
-    * Color inversion
-    * Mono audio
+  * TalkBack
+  * Font size adjustments (Text Scaling)
+  * High contrast text
+  * Reduce motion
+  * Color inversion
+  * Mono audio
 * **Affected Components:** Colors, dimension, and typography from the Foundation
   Package.
 * **Standards and Guidelines:** Compliant with WCAG AA standards.

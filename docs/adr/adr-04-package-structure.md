@@ -83,7 +83,7 @@ ease of integration, maintenance, and scalability.
 
 #### Package Structure
 
-```
+```lang-none
 MyProject/
 ├── foundation/
 │   ├── src/

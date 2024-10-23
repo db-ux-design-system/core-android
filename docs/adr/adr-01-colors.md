@@ -2,26 +2,37 @@
 
 ## Decision and justification
 
-We will integrate color tokens exported by the [theme-builder](https://github.com/db-ui/theme-builder) into our Compose library. These tokens will be defined as `Color` instances prefixed with the exported theme name and used in different color schemes through adaptive themes.
+We will integrate color tokens exported by
+the [theme-builder](https://github.com/db-ui/theme-builder) into our Compose
+library. These tokens will be defined as `Color` instances prefixed with the
+exported theme name and used in different color schemes through adaptive themes.
 
 ## Problem description and context
 
-We want to ensure that color definitions from the theme-builder are efficiently integrated into our Compose library. The color tokens should be adaptable to different color modes (e.g., light and dark mode). The structure for colors and themes should be easy to understand and maintain.
+We want to ensure that color definitions from the theme-builder are efficiently
+integrated into our Compose library. The color tokens should be adaptable to
+different color modes (e.g., light and dark mode). The structure for colors and
+themes should be easy to understand and maintain.
 
 ## General conditions and decision criteria
 
 ### General conditions
 
 * The color tokens must be easily imported from the theme-builder export.
-* The naming and mapping of tokens to color schemes should be consistent and clear.
-* The structure must be flexible enough to accommodate future changes or expansions.
+* The naming and mapping of tokens to color schemes should be consistent and
+  clear.
+* The structure must be flexible enough to accommodate future changes or
+  expansions.
 
 ### Decision criteria
 
-* **Clarity**: The integration of color tokens should be clear and understandable.
-* **Consistency**: The naming and structure of color tokens and themes should be uniform.
+* **Clarity**: The integration of color tokens should be clear and
+  understandable.
+* **Consistency**: The naming and structure of color tokens and themes should be
+  uniform.
 * **Flexibility**: The structure should be easy to extend.
-* **Performance**: The implementation should be performant and should not consume unnecessary resources.
+* **Performance**: The implementation should be performant and should not
+  consume unnecessary resources.
 
 ## Alternatives
 
@@ -30,25 +41,34 @@ We want to ensure that color definitions from the theme-builder are efficiently 
 #### Evaluation
 
 * **Pros:** Simple implementation without additional tools or dependencies.
-* **Cons:** Less flexible for changes and not automatically synchronized with the `theme-builder`.
+* **Cons:** Less flexible for changes and not automatically synchronized with
+  the `theme-builder`.
 
 ### B - Using the export from the `theme-builder`
 
 #### Evaluation
 
-* **Pros:** Direct adoption of color tokens from the `theme-builder`, simple maintenance and synchronization.
+* **Pros:** Direct adoption of color tokens from the `theme-builder`, simple
+  maintenance and synchronization.
 * **Cons:** Dependency on the `theme-builder` and its export structure.
 
 ## Decision
 
-We choose **Alternative B - Using the export from the `theme-builder`** to directly adopt the color tokens. This ensures simple maintenance and synchronization of color definitions.
+We choose **Alternative B - Using the export from the `theme-builder`** to
+directly adopt the color tokens. This ensures simple maintenance and
+synchronization of color definitions.
 
 ## Consequences
 
-* **Positive:** Using the `theme-builder` export allows for consistent and easy updates of color tokens. The structure enables simple customization and expansion of themes.
-* **Negative:** There is a dependency on the `theme-builder` and its export functions.
+* **Positive:** Using the `theme-builder` export allows for consistent and easy
+  updates of color tokens. The structure enables simple customization and
+  expansion of themes.
+* **Negative:** There is a dependency on the `theme-builder` and its export
+  functions.
 
-By implementing this approach, we ensure that our color tokens are clear, consistent and scalable, providing a solid foundation for the color schemes in our design system and facilitating seamless updates.
+By implementing this approach, we ensure that our color tokens are clear,
+consistent and scalable, providing a solid foundation for the color schemes in
+our design system and facilitating seamless updates.
 
 ## Links
 

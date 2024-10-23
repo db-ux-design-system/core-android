@@ -95,9 +95,9 @@ Please adhere to the following coding standards to ensure consistency:
 
 * Follow the Kotlin Coding Conventions.
 * Follow Markdown and YAML style guides:
-    * Markdown: Follow
-      the [Markdown Guide](https://www.markdownguide.org/basic-syntax/).
-    * YAML: Adhere to typical YAML syntax and style rules.
+  * Markdown: Follow
+    the [Markdown Guide](https://www.markdownguide.org/basic-syntax/).
+  * YAML: Adhere to typical YAML syntax and style rules.
 
 ## Code Quality
 

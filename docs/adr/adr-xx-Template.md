@@ -16,11 +16,11 @@
 
 ### A - Alternative name
 
-#### Evaluation A
+#### Evaluation
 
 ### B - Alternative name
 
-#### Evaluation B
+#### Evaluation
 
 ## Consequences
 
