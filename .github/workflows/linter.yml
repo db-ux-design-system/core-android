@@ -34,3 +34,8 @@ jobs:
           cache: gradle
       - run: ./gradlew lint
       - uses: yutailang0119/action-android-lint@v4
+        with:
+          report-path: foundation/build/reports/*.xml
+      - uses: yutailang0119/action-android-lint@v4
+        with:
+          report-path: components/build/reports/*.xml
