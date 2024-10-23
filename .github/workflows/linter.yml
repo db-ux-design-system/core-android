@@ -1,0 +1,18 @@
+---
+name: Linting
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.1.0
