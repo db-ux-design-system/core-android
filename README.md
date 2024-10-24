@@ -1,5 +1,7 @@
 # DB UX Design System Compose Library
 
+[![Linting](https://github.com/db-ui/db-ux-design-system-android/actions/workflows/linter.yml/badge.svg)](https://github.com/db-ui/db-ux-design-system-android/actions/workflows/linter.yml)
+
 Welcome to the UX Design System Library project for Jetpack Compose!
 
 For detailed development guidelines, please refer to
