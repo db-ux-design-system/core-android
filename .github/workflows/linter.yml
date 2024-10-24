@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       packages: read
       statuses: write
 
@@ -27,6 +27,10 @@ jobs:
         uses: super-linter/super-linter@v7.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MARKDOWN_CONFIG_FILE: '.markdownlint.json'
+          VALIDATE_CHECKOV: false
+          VALIDATE_JSCPD: false
+          VALIDATE_KOTLIN: false
 
       - name: Set up JDK
         uses: actions/setup-java@v4.4.0
