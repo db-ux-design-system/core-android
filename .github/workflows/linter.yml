@@ -26,6 +26,9 @@ jobs:
       - name: Lint yaml
         uses: ibiqlik/action-yamllint@v3.1.1
 
+      - name: Lint json
+        uses: ocular-d/json-linter@0.0.2
+
       - name: Set up JDK
         uses: actions/setup-java@v4.4.0
         with:
