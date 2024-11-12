@@ -4,12 +4,20 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.compose.compiler) apply false
 }
-task<Copy>("installGitHook") {
+task("installGitHook") {
     delete(".git/hooks/pre-commit")
+    copy {
+        filePermissions {
+            user {
+                read = true
+                execute = true
+            }
+            other.execute = false
+        }
 
-    fileMode = 0x777
-    from(File(rootProject.rootDir, "scripts/pre-commit"))
-    into(File(rootProject.rootDir, ".git/hooks"))
+        from("${rootProject.rootDir}/scripts/pre-commit")
+        into("${rootProject.rootDir}/.git/hooks")
+    }
 }
 
-tasks.getByPath(":app:preBuild").dependsOn(":installGitHook")
+tasks.getByPath("buildEnvironment").dependsOn(":installGitHook")
