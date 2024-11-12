@@ -5,8 +5,8 @@ git stash -q --keep-index
 echo "Running git pre-commit hook"
 
 ./gradlew lint &&
-node --env-file=.env ./scripts/check-commit-mail.js &&
-node ./scripts/validate-branch-name.js
+	node --env-file=.env ./scripts/check-commit-mail.mjs &&
+	node ./scripts/validate-branch-name.mjs
 
 RESULT=$?
 
