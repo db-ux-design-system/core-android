@@ -1,87 +1,87 @@
 package com.dbsystel.designsystem.components.link
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalRippleConfiguration
-import androidx.compose.material3.RippleConfiguration
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DesignSystemTheme
 
 /**
- * Basic DesignSystem-Link
+ * Links are used as navigation elements. They can stand alone, within a sentence or paragraph
+ * or directly after the content to which they refer.
  *
  * @param modifier - custom modifier of the link
  * @param enabled - enable state
- * @param callback - callback when link is clicked
+ * @param onClick - callback when link is clicked
  * @param text - text of link
  * @param variant - variant of the link
  * @param size - size of the link (medium or small)
  * @param content - content type of the link (external or internal link)
+ * @param showIcon - control the visibility of the icon
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DSLink(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    callback: () -> Unit,
     text: String,
     variant: DSLinkVariant = DSLinkVariant.ADAPTIVE,
     size: DSLinkSize = DSLinkSize.MEDIUM,
     content: DSLinkContent = DSLinkContent.INTERNAL,
+    showIcon: Boolean = true,
+    onClick: () -> Unit,
 ) {
-    val backgroundRippleTheme = RippleConfiguration(
-        color = variant.pressedColor(),
-        rippleAlpha = RippleAlpha(1.0f, 1.0f, 1.0f, 1.0f)
-    )
-    CompositionLocalProvider(LocalRippleConfiguration provides backgroundRippleTheme) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .run { if (enabled) alpha(1.0f) else alpha(0.4f) }
-                .clickable(enabled = enabled) { callback() }
-                .then(modifier)
-        ) {
-            Text(
-                text = text,
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier.padding(end = size.paddingH()),
-                fontSize = size.textSize(),
-                color = variant.color()
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(size.paddingH()),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .alpha(if (enabled) 1.0f else 0.4f)
+            .clickable(
+                enabled = enabled,
+                onClick = onClick,
+                interactionSource = interactionSource,
+                indication = null
             )
-            Box(modifier = Modifier.size(size.iconSize())) {
-                Image(
-                    painter = painterResource(content.iconRes),
-                    contentDescription = "Arrow",
-                    modifier = Modifier.align(Alignment.Center),
-                    colorFilter = ColorFilter.tint(variant.color())
-                )
-            }
-        }
+            .then(modifier)
+    ) {
+        Text(
+            text = text,
+            textDecoration = TextDecoration.Underline,
+            style = size.textStyle(),
+            color = if (pressed) variant.pressedColor() else variant.color()
+        )
+        if (showIcon) Icon(
+            modifier = Modifier.size(size.iconSize()),
+            painter = painterResource(content.iconRes),
+            contentDescription = "Arrow",
+            tint = if (pressed) variant.pressedColor() else variant.color(),
+        )
     }
 }
 
@@ -91,34 +91,34 @@ enum class DSLinkVariant(
 ) {
     ADAPTIVE(
         color = { DesignSystemTheme.activeColor.Basic.Text.Emphasis100.Default },
-        pressedColor = { DesignSystemTheme.activeColor.onBgBasicEmphasis100Pressed },
+        pressedColor = { DesignSystemTheme.activeColor.Basic.Text.Emphasis100.Pressed },
     ),
     BRAND(
-        color = { DesignSystemTheme.colors.brand.Origin.Default },
-        pressedColor = { DesignSystemTheme.colors.brand.onBgBasicEmphasis100Pressed },
+        color = { DesignSystemTheme.colors.brand.onBgBasicEmphasis80Default },
+        pressedColor = { DesignSystemTheme.colors.brand.onBgBasicEmphasis80Hovered },
     ),
 }
 
 enum class DSLinkSize(
     val paddingH: @Composable () -> Dp,
     val iconSize: @Composable () -> Dp,
-    val textSize: @Composable () -> TextUnit,
+    val textStyle: @Composable () -> TextStyle,
 ) {
     MEDIUM(
         paddingH = { DesignSystemTheme.dimensions.spacing.fixed2xs },
         iconSize = { 24.dp },
-        textSize = { DesignSystemTheme.typography.bodyMd.fontSize },
+        textStyle = { TextStyle(fontSize = DesignSystemTheme.typography.bodyMd.fontSize) },
     ),
     SMALL(
         paddingH = { DesignSystemTheme.dimensions.spacing.fixed3xs },
         iconSize = { 20.dp },
-        textSize = { DesignSystemTheme.typography.bodySm.fontSize },
+        textStyle = { TextStyle(fontSize = DesignSystemTheme.typography.bodySm.fontSize) },
     )
 }
 
 enum class DSLinkContent(@DrawableRes val iconRes: Int) {
-    INTERNAL(iconRes = R.drawable.arrow_right),
-    EXTERNAL(iconRes = R.drawable.arrow_right_up),
+    INTERNAL(iconRes = R.drawable.ds_ic_arrow_forward),
+    EXTERNAL(iconRes = R.drawable.ds_ic_link_external),
 }
 
 private class DSLinkPreviewProvider : PreviewParameterProvider<DSLinkPreviewParameterType> {
@@ -146,19 +146,17 @@ private class DSLinkPreviewParameterType(
 )
 
 @Composable
-@Preview
-private fun DSButtonPreview(
+@Preview(showBackground = true)
+private fun DSLinkPreview(
     @PreviewParameter(DSLinkPreviewProvider::class) previewType: DSLinkPreviewParameterType
 ) {
     DesignSystemTheme {
         Box(
             modifier = Modifier
-                .width(150.dp)
-                .background(Color.White)
                 .padding(5.dp)
         ) {
             DSLink(
-                callback = {},
+                onClick = {},
                 text = previewType.variant.name,
                 size = previewType.size,
                 content = previewType.content,
