@@ -1,11 +1,13 @@
 package com.dbsystel.designsystem.components.button
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,30 +18,36 @@ import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.RippleConfiguration
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DesignSystemTheme
 
 /**
- * Basic DesignSystem-Button
+ * Buttons are a fundamental element in UI design and are used to prompt users to interact
+ * with the user interface and trigger an action.
  *
  * @param modifier - custom modifier of the button
  * @param enabled - enable state
- * @param callback - callback when button clicked
+ * @param onClick - callback when button clicked
  * @param text - text to display
  * @param icon - icon to display
  * @param iconContentDescription - content description of the icon
@@ -52,18 +60,18 @@ import com.dbsystel.designsystem.foundation.theme.DesignSystemTheme
 fun DSButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    callback: () -> Unit,
     text: String? = null,
-    icon: Int? = null,
+    icon: DSButtonIcon? = null,
     iconContentDescription: String = "Icon",
     size: DSButtonSize = DSButtonSize.MEDIUM,
-    variant: DSButtonVariant = DSButtonVariant.OUTLINE,
+    variant: DSButtonVariant = DSButtonVariant.OUTLINED,
     width: DSButtonWidth = DSButtonWidth.AUTO,
+    showIcon: Boolean = false,
+    noText: Boolean = false,
+    onClick: () -> Unit,
 ) {
-    val shape = RoundedCornerShape(size = size.borderRadius())
-    val iconOnly = icon != null && text.isNullOrEmpty()
-    val textOnly = icon == null && !text.isNullOrEmpty()
-    val textAndIcon = icon != null && !text.isNullOrEmpty()
+    val shape = RoundedCornerShape(size = DesignSystemTheme.dimensions.border.radiusXs)
+    val iconOnly = icon != null && text.isNullOrBlank()
     val backgroundRippleTheme = RippleConfiguration(
         color = DesignSystemTheme.activeColor.Basic.Background.Transparent.Pressed,
         rippleAlpha = RippleAlpha(1.0f, 1.0f, 1.0f, 1.0f)
@@ -71,16 +79,18 @@ fun DSButton(
     CompositionLocalProvider(LocalRippleConfiguration provides backgroundRippleTheme) {
         Button(
             border = if (variant.hasBorder) BorderStroke(
-                width = size.borderHeight(),
+                width = DesignSystemTheme.dimensions.border.height3xs,
                 color = DesignSystemTheme.activeColor.onBgBasicEmphasis100Default
             ) else null,
             shape = shape,
             modifier = Modifier
+                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
+                .padding(0.dp)
                 .height(size.size())
-                .run { if (width == DSButtonWidth.FULL_WIDTH) fillMaxWidth() else this }
-                .run { if (enabled) alpha(1.0f) else alpha(0.4f) }
+                .then(if (width == DSButtonWidth.FULL_WIDTH) Modifier.fillMaxWidth() else Modifier)
+                .then(if (enabled) Modifier.alpha(1.0f) else Modifier.alpha(0.4f))
                 .then(modifier),
-            onClick = callback,
+            onClick = onClick,
             enabled = enabled,
             colors = ButtonColors(
                 contentColor = variant.color(),
@@ -88,27 +98,40 @@ fun DSButton(
                 disabledContentColor = variant.color(),
                 disabledContainerColor = variant.background(),
             ),
-            contentPadding = if (textAndIcon || textOnly) {
+            contentPadding = if (!iconOnly) {
                 PaddingValues(horizontal = size.paddingH(), vertical = 0.dp)
-            } else if (iconOnly) {
-                PaddingValues(all = size.paddingFull())
             } else {
-                PaddingValues(horizontal = size.paddingH())
+                PaddingValues(all = size.paddingFull())
             },
         ) {
-            Row {
-                if (icon != null) Image(
-                    modifier = Modifier
-                        .size(size.iconSize())
-                        .padding(end = size.spacing()),
-                    painter = painterResource(id = icon),
-                    contentDescription = iconContentDescription
-                )
-                if (text != null) Text(
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(if (!iconOnly) size.spacing() else 0.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (icon != null && showIcon) {
+                    if (icon.iconRes != null) {
+                        Icon(
+                            modifier = Modifier.size(size.iconSize()),
+                            painter = painterResource(id = icon.iconRes),
+                            contentDescription = icon.contentDescription,
+                            tint = variant.color()
+                        )
+                    } else if (icon.imageVector != null) {
+                        Icon(
+                            modifier = Modifier.size(size.iconSize()),
+                            imageVector = icon.imageVector,
+                            contentDescription = icon.contentDescription,
+                            tint = variant.color()
+                        )
+                    }
+                }
+                if (text != null && !noText) Text(
                     text = text,
-                    fontSize = size.textSize(),
-                    fontWeight = FontWeight(size.fontWeight()),
-                    lineHeight = size.lineHeight(),
+                    style = TextStyle(
+                        fontSize = size.textSize(),
+                        fontWeight = FontWeight.Bold,
+                        lineHeight = size.lineHeight(),
+                    ),
                     color = variant.color()
                 )
             }
@@ -116,12 +139,18 @@ fun DSButton(
     }
 }
 
+data class DSButtonIcon(
+    @DrawableRes val iconRes: Int? = null,
+    val imageVector: ImageVector? = null,
+    val contentDescription: String? = null
+)
+
 enum class DSButtonVariant(
     val background: @Composable () -> Color,
     val color: @Composable () -> Color,
     val hasBorder: Boolean,
 ) {
-    OUTLINE(
+    OUTLINED(
         background = { DesignSystemTheme.activeColor.Basic.Background.Transparent.Full },
         color = { DesignSystemTheme.activeColor.Basic.Text.Emphasis100.Default },
         hasBorder = true,
@@ -148,11 +177,8 @@ enum class DSButtonSize(
     val paddingFull: @Composable () -> Dp,
     val paddingH: @Composable () -> Dp,
     val spacing: @Composable () -> Dp,
-    val borderRadius: @Composable () -> Dp,
-    val borderHeight: @Composable () -> Dp,
     val iconSize: @Composable () -> Dp,
     val textSize: @Composable () -> TextUnit,
-    val fontWeight: @Composable () -> Int,
     val lineHeight: @Composable () -> TextUnit,
 ) {
     MEDIUM(
@@ -162,10 +188,7 @@ enum class DSButtonSize(
         paddingFull = { DesignSystemTheme.dimensions.spacing.fixedXs },
         paddingH = { DesignSystemTheme.dimensions.spacing.fixedMd },
         spacing = { DesignSystemTheme.dimensions.spacing.fixedXs },
-        borderRadius = { DesignSystemTheme.dimensions.border.radiusXs },
-        borderHeight = { DesignSystemTheme.dimensions.border.height3xs },
-        iconSize = { 20.dp },
-        fontWeight = { 700 }
+        iconSize = { 24.dp },
     ),
     SMALL(
         size = { DesignSystemTheme.dimensions.sizing.baseSm },
@@ -174,10 +197,7 @@ enum class DSButtonSize(
         paddingFull = { DesignSystemTheme.dimensions.spacing.fixed3xs },
         paddingH = { DesignSystemTheme.dimensions.spacing.fixedSm },
         spacing = { DesignSystemTheme.dimensions.spacing.fixed2xs },
-        borderRadius = { DesignSystemTheme.dimensions.border.radiusXs },
-        borderHeight = { DesignSystemTheme.dimensions.border.height3xs },
-        iconSize = { 16.dp },
-        fontWeight = { 700 }
+        iconSize = { 20.dp },
     )
 }
 
@@ -208,7 +228,7 @@ private class DSButtonPreviewParameterType(
 )
 
 @Composable
-@Preview
+@PreviewLightDark
 private fun DSButtonPreview(
     @PreviewParameter(DSButtonPreviewProvider::class) previewType: DSButtonPreviewParameterType
 ) {
@@ -219,14 +239,28 @@ private fun DSButtonPreview(
                 .background(Color.White)
                 .padding(5.dp)
         ) {
-            DSButton(
-                callback = {},
-                text = previewType.width.name,
-                size = previewType.size,
-                width = previewType.width,
-                variant = previewType.variant,
-                enabled = previewType.enabled
-            )
+            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                DSButton(
+                    onClick = {},
+                    text = previewType.width.name,
+                    size = previewType.size,
+                    width = previewType.width,
+                    variant = previewType.variant,
+                    enabled = previewType.enabled,
+                    icon = DSButtonIcon(iconRes = R.drawable.sample_vector),
+                    showIcon = true,
+                    noText = false,
+                )
+                DSButton(
+                    onClick = {},
+                    icon = DSButtonIcon(iconRes = R.drawable.sample_vector),
+                    size = previewType.size,
+                    width = previewType.width,
+                    variant = previewType.variant,
+                    enabled = previewType.enabled,
+                    showIcon = true,
+                )
+            }
         }
     }
 }
