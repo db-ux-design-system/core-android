@@ -3,6 +3,8 @@ package com.dbsystel.designsystem.components.button
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,16 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalRippleConfiguration
-import androidx.compose.material3.RippleConfiguration
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -54,6 +55,8 @@ import com.dbsystel.designsystem.foundation.theme.DesignSystemTheme
  * @param size - size of the button
  * @param variant - variant of the button
  * @param width - width-setting of the button
+ * @param showIcon - control the visibility of the icon
+ * @param noText - control the visibility of the text
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,69 +75,67 @@ fun DSButton(
 ) {
     val shape = RoundedCornerShape(size = DesignSystemTheme.dimensions.border.radiusXs)
     val iconOnly = icon != null && text.isNullOrBlank()
-    val backgroundRippleTheme = RippleConfiguration(
-        color = DesignSystemTheme.activeColor.Basic.Background.Transparent.Pressed,
-        rippleAlpha = RippleAlpha(1.0f, 1.0f, 1.0f, 1.0f)
-    )
-    CompositionLocalProvider(LocalRippleConfiguration provides backgroundRippleTheme) {
-        Button(
-            border = if (variant.hasBorder) BorderStroke(
-                width = DesignSystemTheme.dimensions.border.height3xs,
-                color = DesignSystemTheme.activeColor.onBgBasicEmphasis100Default
-            ) else null,
-            shape = shape,
-            modifier = Modifier
-                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
-                .padding(0.dp)
-                .height(size.size())
-                .then(if (width == DSButtonWidth.FULL_WIDTH) Modifier.fillMaxWidth() else Modifier)
-                .then(if (enabled) Modifier.alpha(1.0f) else Modifier.alpha(0.4f))
-                .then(modifier),
-            onClick = onClick,
-            enabled = enabled,
-            colors = ButtonColors(
-                contentColor = variant.color(),
-                containerColor = variant.background(),
-                disabledContentColor = variant.color(),
-                disabledContainerColor = variant.background(),
-            ),
-            contentPadding = if (!iconOnly) {
-                PaddingValues(horizontal = size.paddingH(), vertical = 0.dp)
-            } else {
-                PaddingValues(all = size.paddingFull())
-            },
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+
+    Button(
+        border = if (variant.hasBorder) BorderStroke(
+            width = DesignSystemTheme.dimensions.border.height3xs,
+            color = DesignSystemTheme.activeColor.onBgBasicEmphasis100Default
+        ) else null,
+        shape = shape,
+        modifier = Modifier
+            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp)
+            .padding(0.dp)
+            .height(size.size())
+            .then(if (width == DSButtonWidth.FULL_WIDTH) Modifier.fillMaxWidth() else Modifier)
+            .then(if (enabled) Modifier.alpha(1.0f) else Modifier.alpha(0.4f))
+            .then(modifier),
+        onClick = onClick,
+        enabled = enabled,
+        colors = ButtonColors(
+            contentColor = variant.color(),
+            containerColor = if (pressed) DesignSystemTheme.activeColor.Basic.Background.Transparent.Pressed else variant.background(),
+            disabledContentColor = variant.color(),
+            disabledContainerColor = variant.background(),
+        ),
+        contentPadding = if (!iconOnly) {
+            PaddingValues(horizontal = size.paddingH(), vertical = 0.dp)
+        } else {
+            PaddingValues(all = size.paddingFull())
+        },
+        interactionSource = interactionSource
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(if (!iconOnly) size.spacing() else 0.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(if (!iconOnly) size.spacing() else 0.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (icon != null && showIcon) {
-                    if (icon.iconRes != null) {
-                        Icon(
-                            modifier = Modifier.size(size.iconSize()),
-                            painter = painterResource(id = icon.iconRes),
-                            contentDescription = icon.contentDescription,
-                            tint = variant.color()
-                        )
-                    } else if (icon.imageVector != null) {
-                        Icon(
-                            modifier = Modifier.size(size.iconSize()),
-                            imageVector = icon.imageVector,
-                            contentDescription = icon.contentDescription,
-                            tint = variant.color()
-                        )
-                    }
+            if (icon != null && showIcon) {
+                if (icon.iconRes != null) {
+                    Icon(
+                        modifier = Modifier.size(size.iconSize()),
+                        painter = painterResource(id = icon.iconRes),
+                        contentDescription = icon.contentDescription,
+                        tint = variant.color()
+                    )
+                } else if (icon.imageVector != null) {
+                    Icon(
+                        modifier = Modifier.size(size.iconSize()),
+                        imageVector = icon.imageVector,
+                        contentDescription = icon.contentDescription,
+                        tint = variant.color()
+                    )
                 }
-                if (text != null && !noText) Text(
-                    text = text,
-                    style = TextStyle(
-                        fontSize = size.textSize(),
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = size.lineHeight(),
-                    ),
-                    color = variant.color()
-                )
             }
+            if (text != null && !noText) Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = size.textSize(),
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = size.lineHeight(),
+                ),
+                color = variant.color()
+            )
         }
     }
 }
@@ -228,6 +229,7 @@ private class DSButtonPreviewParameterType(
 )
 
 @Composable
+@Preview
 @PreviewLightDark
 private fun DSButtonPreview(
     @PreviewParameter(DSButtonPreviewProvider::class) previewType: DSButtonPreviewParameterType
