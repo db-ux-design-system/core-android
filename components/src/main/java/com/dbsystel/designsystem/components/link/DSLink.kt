@@ -137,8 +137,8 @@ enum class DSLinkSize {
         @Composable
         @ReadOnlyComposable
         get() = when (this) {
-            MEDIUM -> TextStyle(fontSize = DesignSystemTheme.typography.bodyMd.fontSize)
-            SMALL -> TextStyle(fontSize = DesignSystemTheme.typography.bodySm.fontSize)
+            MEDIUM -> DesignSystemTheme.typography.bodyMd
+            SMALL -> DesignSystemTheme.typography.bodySm
         }
 }
 
