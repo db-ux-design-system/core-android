@@ -46,7 +46,8 @@ import com.dbsystel.designsystem.foundation.theme.DesignSystemTheme
  * @param icon wrapper class to define the icon to be displayed
  * @param variant visual representation of the button
  * @param size size of the button
- * @param enabled controls the enabled state of this button. When false, this component will not respond to user input, and it will appear visually disabled and disabled to accessibility services.
+ * @param enabled controls the enabled state of this button. When false, this component will not
+ * respond to user input, and it will appear visually disabled and disabled to accessibility services.
  * @param width width of the button
  * @param onClick called when this button is clicked
  *
