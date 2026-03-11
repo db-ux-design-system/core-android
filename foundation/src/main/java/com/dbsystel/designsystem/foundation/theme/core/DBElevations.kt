@@ -1,5 +1,5 @@
 package com.dbsystel.designsystem.foundation.theme.core
-
+  
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
-fun Modifier.dsShadow(
-    elevation: DSElevation,
+fun Modifier.dbShadow(
+    elevation: DBElevation,
     shape: Shape = RectangleShape,
     clip: Boolean = true,
 ): Modifier {
     return drawWithCache {
         onDrawWithContent {
-            fun drawShadow(config: DSElevationShadowConfig) {
+            fun drawShadow(config: DBElevationShadowConfig) {
                 drawIntoCanvas { canvas ->
                     val spreadRadiusPx = config.spread.toPx()
                     val hasSpreadRadius = spreadRadiusPx != 0f
@@ -63,33 +63,33 @@ fun Modifier.dsShadow(
     }.let { modifier -> if (clip) modifier.clip(shape) else modifier }
 }
 
-internal data class DSElevationShadowConfig(
+internal data class DBElevationShadowConfig(
     val offset: DpOffset,
     val blur: Dp,
     val spread: Dp,
     val color: Color,
 )
 
-enum class DSElevation(internal val config: List<DSElevationShadowConfig>) {
+enum class DBElevation(internal val config: List<DBElevationShadowConfig>) {
     SM(
         listOf(
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 1.dp, (-1).dp, Color(0f, 0f, 0f, 0.2f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, 1.dp, Color(0f, 0f, 0f, 0.12f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 2.dp, 0.dp, Color(0f, 0f, 0f, 0.14f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 1.dp, (-1).dp, Color(0x00000033)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, 1.dp, Color(0x0000001f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 2.dp, 0.dp, Color(0x00000024)),
         ),
     ),
     MD(
         listOf(
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 2.dp, (-1).dp, Color(0f, 0f, 0f, 0.2f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 8.dp, 1.dp, Color(0f, 0f, 0f, 0.12f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, 0.dp, Color(0f, 0f, 0f, 0.14f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 2.dp, (-1).dp, Color(0x00000033)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 8.dp, 1.dp, Color(0x0000001f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, 0.dp, Color(0x00000024)),
         ),
     ),
     LG(
         listOf(
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, (-3).dp, Color(0f, 0f, 0f, 0.2f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 16.dp, 3.dp, Color(0f, 0f, 0f, 0.12f)),
-            DSElevationShadowConfig(DpOffset(0.dp, 0.dp), 8.dp, 1.dp, Color(0f, 0f, 0f, 0.14f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 4.dp, (-3).dp, Color(0x00000033)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 16.dp, 3.dp, Color(0x0000001f)),
+            DBElevationShadowConfig(DpOffset(0.dp, 0.dp), 8.dp, 1.dp, Color(0x00000024)),
         ),
     ),
 }

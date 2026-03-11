@@ -1,6 +1,5 @@
 package com.dbsystel.designsystem.foundation.theme.core
 
-
-enum class DSDensity {
+enum class DBDensity {
     FUNCTIONAL, REGULAR, EXPRESSIVE
 }
