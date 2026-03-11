@@ -80,7 +80,7 @@ our design system and facilitating seamless updates.
 1. **Import Color Tokens:**
 
    ```kotlin
-   val DeutscheBahnColorMap = mapOf(
+   val DBColorMap = mapOf(
        "neutral0" to Color(0xff070709),
        "neutral1" to Color(0xff0d0e11),
        "neutral2" to Color(0xff121316),
@@ -94,7 +94,7 @@ our design system and facilitating seamless updates.
 2. **Define ColorScheme Using Color Tokens:**
 
    ```kotlin
-   class DSColorVariant private constructor(
+   class DBColorVariant private constructor(
        val bgBasicLevel1Default: Color,
        val bgBasicLevel1Hovered: Color,
        val bgBasicLevel1Pressed: Color,
@@ -105,7 +105,7 @@ our design system and facilitating seamless updates.
            // ...
    ) {
     companion object {
-       fun dark(colorName: String) = DSColorVariant(
+       fun dark(colorName: String) = DBColorVariant(
            DBColorMap.getValue(colorName + "3"),
            DBColorMap.getValue(colorName + "4"),
            DBColorMap.getValue(colorName + "5"),
@@ -115,7 +115,7 @@ our design system and facilitating seamless updates.
            DBColorMap.getValue(colorName + "1"),
            // ...
        )
-       fun light(colorName: String) = DSColorVariant(
+       fun light(colorName: String) = DBColorVariant(
            DBColorMap.getValue(colorName + "14"),
            DBColorMap.getValue(colorName + "13"),
            DBColorMap.getValue(colorName + "12"),
@@ -132,7 +132,7 @@ our design system and facilitating seamless updates.
 3. **Instantiate ColorScheme:**
 
    ```kotlin
-   val NeutralColorsDark = DSColorVariant.dark("neutral")
-   val BrandColorsDark = DSColorVariant.dark("brand")
-   val InformationalColorsDark = DSColorVariant.dark("informational")
+   val NeutralColorsDark = DBColorVariant.dark("neutral")
+   val BrandColorsDark = DBColorVariant.dark("brand")
+   val InformationalColorsDark = DBColorVariant.dark("informational")
    ```

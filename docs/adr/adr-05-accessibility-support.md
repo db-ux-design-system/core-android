@@ -115,7 +115,7 @@ fun AccessibleButton(onClick: () -> Unit) {
             .clickable(onClick = onClick)
             .semantics {
                 contentDescription = "Submit button"
-                stateDescription = "Double tap to submit the form"
+                stateDescription = "Tap to submit the form"
             }
     )
 }

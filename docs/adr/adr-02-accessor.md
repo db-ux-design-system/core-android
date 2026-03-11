@@ -115,13 +115,13 @@ through the Compose tree.
 2. **Make it accessible via theme accessor:**
 
    ```kotlin
-   object DesignSystemTheme {
-    val colors: DesignSystemColorScheme
+   object DBTheme {
+    val colors: DBColorScheme
         @Composable
         @ReadOnlyComposable
         get() = LocalColors.current
 
-    val activeColor: DSColorVariant
+    val activeColor: DBColorVariant
         @Composable
         @ReadOnlyComposable
         get() = LocalActiveColor.current
@@ -130,15 +130,15 @@ through the Compose tree.
    }
 
    @Composable
-   fun DesignSystemTheme(
-      density: DSDensity = DSDensity.REGULAR,
+   fun DBTheme(
+      density: DSDensity = DBDensity.REGULAR,
       darkTheme: Boolean = isSystemInDarkTheme(),
       content: @Composable () -> Unit,
    ) {
       // Use density to choose correct style for typography and dimensions
    
       // colors
-      val colorScheme: DesignSystemColorScheme = when {
+      val colorScheme: DBColorScheme = when {
          darkTheme -> getColorSchemeDark()
          else -> getColorSchemeLight()
       }
@@ -158,11 +158,11 @@ through the Compose tree.
    @Composable
    fun StyledText(text: String) {
       Box(
-        modifier = Modifier.padding(DesignSystemTheme.dimensions.spacing.fixedMd),
+        modifier = Modifier.padding(DBTheme.dimensions.spacing.fixedMd),
       ) {
          Text(
             text = text,
-            color = DesignSystemTheme.activeColor.onBgBasicEmphasis100Default,
+            color = DBTheme.activeColor.onBgBasicEmphasis100Default,
          )
       }
    }
@@ -173,8 +173,8 @@ through the Compose tree.
    ```kotlin
    @Composable
    fun AdaptiveLayout(
-      density: DSDensity = DSDensity.REGULAR,
-      activeColor: DSColorVariant = DesignSystemTheme.colors.neutral,
+      density: DBDensity = DBDensity.REGULAR,
+      activeColor: DBColorVariant = DBTheme.colors.neutral,
       content: @Composable () -> Unit,
    ) {
       // Same logic for typography and density as shown in 2.
@@ -194,8 +194,8 @@ through the Compose tree.
    @Composable
    fun CriticalExpressiveView() {
        AdaptiveLayout(
-           density = DSDensity.EXPRESSIVE,
-           activeColor = DesignSystemTheme.colors.critical,
+           density = DBDensity.EXPRESSIVE,
+           activeColor = DBTheme.colors.critical,
        ) {
            StyledText("Hello world!")
        }
