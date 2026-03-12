@@ -9,5 +9,4 @@ our [DEVELOPMENT.md](./DEVELOPMENT.md) document.
 
 ## License
 
-This project is licensed under [Apache-2.0](LICENSE), Copyright 2024 by DB
-Systel GmbH.
+This project is licensed under [Apache-2.0](LICENSE), Copyright 2024 by DB Systel GmbH.
