@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "DBUXDS"
 include(":foundation")
 include(":components")
+include(":showcase")

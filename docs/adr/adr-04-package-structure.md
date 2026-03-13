@@ -144,7 +144,7 @@ fun AppTextField(
         modifier = modifier,
         decorationBox = { innerTextField ->
             if (value.isEmpty()) {
-                androidx.compose.material.Text(
+                Text(
                     text = placeholder,
                     color = AppColors.secondary
                 )

@@ -1,12 +1,11 @@
 plugins {
     alias(libs.plugins.com.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.dbsystel.designsystem.components"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 30
@@ -30,9 +29,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
