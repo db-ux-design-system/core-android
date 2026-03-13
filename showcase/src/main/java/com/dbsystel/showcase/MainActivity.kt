@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,9 +18,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
+import com.dbsystel.designsystem.components.badge.DBBadge
+import com.dbsystel.designsystem.components.badge.DBBadgeContent
+import com.dbsystel.designsystem.components.badge.DBBadgeContent.Icon
 import com.dbsystel.designsystem.components.button.DBButton
 import com.dbsystel.designsystem.components.button.DBButtonVariant
 import com.dbsystel.designsystem.components.card.DBCard
+import com.dbsystel.designsystem.components.core.DBIcon
+import com.dbsystel.designsystem.components.core.DBSemantic
+import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
 
@@ -115,6 +125,33 @@ fun DemoContent() {
                 color = DBTheme.activeColor.onBgBasicEmphasis100Default,
             )
 
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                DBBadge(
+                    content = DBBadgeContent.Text("Beta"),
+                )
+                DBBadge(
+                    content = DBBadgeContent.Text("Error"),
+                    semantic = DBSemantic.CRITICAL,
+                )
+                DBBadge(
+                    content = DBBadgeContent.Text("Info"),
+                    semantic = DBSemantic.INFORMATIONAL,
+                    size = DBSize.MEDIUM,
+                )
+                DBBadge(
+                    content = DBBadgeContent.Dot,
+                )
+                DBBadge(
+                    content = Icon(
+                        DBIcon(
+                            imageVector = ImageVector.vectorResource(com.dbsystel.designsystem.foundation.R.drawable.sample_vector),
+                            contentDescription = null,
+                        )
+                    ),
+                )
+            }
             DBButton(
                 text = "Login",
                 variant = DBButtonVariant.FILLED,

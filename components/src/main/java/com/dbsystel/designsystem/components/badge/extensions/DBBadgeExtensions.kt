@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBSize.MEDIUM
 import com.dbsystel.designsystem.components.core.DBSize.SMALL
@@ -22,8 +23,8 @@ internal val DBSize.iconSize: Dp
     @Composable
     @ReadOnlyComposable
     get() = when (this) {
-        SMALL -> DBTheme.dimensions.sizing.baseXs
-        MEDIUM -> DBTheme.dimensions.sizing.baseSm
+        SMALL -> 20.dp
+        MEDIUM -> 30.dp
     }
 
 internal val DBSize.horizontalPadding: Dp

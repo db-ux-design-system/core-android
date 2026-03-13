@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -65,9 +64,7 @@ fun DBBadge(
 ) {
     val shape = RoundedCornerShape(CornerSize(percent = 50))
 
-    Surface(
-        color = semantic.backgroundColor(emphasis),
-        tonalElevation = 0.dp,
+    Column(
         modifier = Modifier
             .background(color = semantic.backgroundColor(emphasis), shape = shape)
             .border(
@@ -77,13 +74,14 @@ fun DBBadge(
             )
             .clip(shape)
             .sizeIn(
-                minHeight = if (content is DBBadgeContent.Dot) size.dotSize else 0.dp,
+                minHeight = if (content is DBBadgeContent.Dot) size.dotSize else 14.dp,
                 minWidth = if (content is DBBadgeContent.Dot) size.dotSize else 0.dp,
             )
             .padding(
                 horizontal = if (content is DBBadgeContent.Text) size.horizontalPadding else 0.dp,
             )
             .then(modifier),
+        verticalArrangement = Arrangement.Center,
     ) {
         when (content) {
             is DBBadgeContent.Text -> {
@@ -97,7 +95,7 @@ fun DBBadge(
             is DBBadgeContent.Icon -> Icon(
                 modifier = Modifier
                     .size(size.iconSize)
-                    .padding(all = size.paddingFull),
+                    .padding(all = size.paddingFull + 1.dp),
                 imageVector = content.icon.imageVector,
                 contentDescription = content.icon.contentDescription,
                 tint = semantic.iconColor(emphasis),
@@ -125,11 +123,11 @@ private fun DBBadgePreview() {
                     verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedLg),
                 ) {
                     DBBadge(
-                        content = DBBadgeContent.Text("Text"),
+                        content = DBBadgeContent.Text("Badge"),
                         semantic = semantic,
                     )
                     DBBadge(
-                        content = DBBadgeContent.Text("Text"),
+                        content = DBBadgeContent.Text("Badge"),
                         semantic = semantic,
                         emphasis = DBEmphasis.STRONG,
                     )
