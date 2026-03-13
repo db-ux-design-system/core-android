@@ -3,6 +3,7 @@ package com.dbsystel.designsystem.components.badge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,19 +26,20 @@ import com.dbsystel.designsystem.components.badge.extensions.horizontalPadding
 import com.dbsystel.designsystem.components.badge.extensions.iconSize
 import com.dbsystel.designsystem.components.badge.extensions.paddingFull
 import com.dbsystel.designsystem.components.badge.extensions.textStyle
-import com.dbsystel.designsystem.components.badge.preview.previewName as badgePreviewName
 import com.dbsystel.designsystem.components.core.DBEmphasis
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.extensions.backgroundColor
 import com.dbsystel.designsystem.components.core.extensions.borderColor
+import com.dbsystel.designsystem.components.core.extensions.iconColor
 import com.dbsystel.designsystem.components.core.extensions.textColor
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
+import com.dbsystel.designsystem.components.badge.preview.previewName as badgePreviewName
 
 
 /**
@@ -64,10 +66,10 @@ fun DBBadge(
     val shape = RoundedCornerShape(CornerSize(percent = 50))
 
     Surface(
-        color = semantic.backgroundColor,
+        color = semantic.backgroundColor(emphasis),
         tonalElevation = 0.dp,
         modifier = Modifier
-            .background(color = semantic.backgroundColor, shape = shape)
+            .background(color = semantic.backgroundColor(emphasis), shape = shape)
             .border(
                 width = DBTheme.dimensions.border.width3xs,
                 color = semantic.borderColor,
@@ -87,7 +89,7 @@ fun DBBadge(
             is DBBadgeContent.Text -> {
                 Text(
                     text = content.text,
-                    color = semantic.textColor,
+                    color = semantic.textColor(emphasis),
                     style = size.textStyle.copy(fontWeight = FontWeight.W700),
                 )
             }
@@ -98,7 +100,7 @@ fun DBBadge(
                     .padding(all = size.paddingFull),
                 imageVector = content.icon.imageVector,
                 contentDescription = content.icon.contentDescription,
-                tint = DBTheme.activeColor.Basic.Icon.Emphasis100.Default,
+                tint = semantic.iconColor(emphasis),
             )
 
             DBBadgeContent.Dot -> Unit
@@ -119,10 +121,19 @@ private fun DBBadgePreview() {
         component = "DBBadge",
         preview = {
             DBSemantic.entries.forEach { semantic ->
-                DBBadge(
-                    content = DBBadgeContent.Text("Text"),
-                    semantic = semantic,
-                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedLg),
+                ) {
+                    DBBadge(
+                        content = DBBadgeContent.Text("Text"),
+                        semantic = semantic,
+                    )
+                    DBBadge(
+                        content = DBBadgeContent.Text("Text"),
+                        semantic = semantic,
+                        emphasis = DBEmphasis.STRONG,
+                    )
+                }
             }
         },
         properties = listOf(
@@ -154,7 +165,7 @@ private fun DBBadgePreview() {
                 }
             ),
             BasePreviewProperties(
-                property = "Emphasis TBD",
+                property = "Emphasis",
                 views = DBEmphasis.entries.map { emphasis ->
                     emphasis.previewName to {
                         DBBadge(
@@ -165,7 +176,7 @@ private fun DBBadgePreview() {
                 }
             ),
             BasePreviewProperties(
-                property = "Semantic TBD",
+                property = "Semantic",
                 views = DBSemantic.entries.map { semantic ->
                     semantic.previewName to {
                         Row(

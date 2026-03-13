@@ -67,6 +67,11 @@ interface IInverted {
     val OnBackground: IStateColor
 }
 
+interface IVibrant {
+    val Background: IStateColor
+    val OnBackground: IStateColor
+}
+
 class DBColorVariant private constructor(
 	val bgBasicLevel1Default: Color,
 	val bgBasicLevel1Hovered: Color,
@@ -243,6 +248,19 @@ class DBColorVariant private constructor(
             override val Default = onBgInvertedDefault
             override val Hovered = onBgInvertedHovered
             override val Pressed = onBgInvertedPressed
+        }
+    }
+
+    val Vibrant = object : IVibrant {
+        override val Background = object : IStateColor {
+            override val Default = bgVibrantDefault
+            override val Hovered = bgVibrantHovered
+            override val Pressed = bgVibrantPressed
+        }
+        override val OnBackground = object : IStateColor {
+            override val Default = onBgVibrantDefault
+            override val Hovered = onBgVibrantHovered
+            override val Pressed = onBgVibrantPressed
         }
     }
 
