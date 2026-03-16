@@ -35,6 +35,18 @@ internal fun DBSemantic.backgroundColor(emphasis: DBEmphasis? = null): Color =
     }
 
 
+internal val DBSemantic.iconColor70: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = when (this) {
+        ADAPTIVE -> DBTheme.activeColor
+        NEUTRAL -> DBTheme.colors.neutral
+        CRITICAL -> DBTheme.colors.critical
+        INFORMATIONAL -> DBTheme.colors.informational
+        WARNING -> DBTheme.colors.warning
+        SUCCESSFUL -> DBTheme.colors.successful
+    }.Basic.Icon.Emphasis70.Default
+
 @Composable
 @ReadOnlyComposable
 internal fun DBSemantic.iconColor(emphasis: DBEmphasis? = null): Color =
