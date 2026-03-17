@@ -92,14 +92,16 @@ fun DBBadge(
                 )
             }
 
-            is DBBadgeContent.Icon -> Icon(
-                modifier = Modifier
-                    .size(size.iconSize)
-                    .padding(all = size.paddingFull + 1.dp),
-                imageVector = content.icon.imageVector,
-                contentDescription = content.icon.contentDescription,
-                tint = semantic.iconColor(emphasis),
-            )
+            is DBBadgeContent.Icon -> {
+                Icon(
+                    modifier = Modifier
+                        .size(size.iconSize)
+                        .padding(all = size.paddingFull + 1.dp),
+                    imageVector = content.icon.imageVector,
+                    contentDescription = content.icon.contentDescription,
+                    tint = semantic.iconColor(emphasis),
+                )
+            }
 
             DBBadgeContent.Dot -> Unit
         }

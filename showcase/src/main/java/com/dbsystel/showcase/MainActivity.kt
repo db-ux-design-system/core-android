@@ -30,6 +30,7 @@ import com.dbsystel.designsystem.components.card.DBCard
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.infotext.DBInfotext
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
 
@@ -150,6 +151,19 @@ fun DemoContent() {
                             contentDescription = null,
                         )
                     ),
+                )
+            }
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                DBInfotext(
+                    text = "This is an infotext with default semantic.",
+                )
+                DBInfotext(
+                    text = "This is an error infotext.",
+                    semantic = DBSemantic.CRITICAL,
+                    size = DBSize.SMALL,
                 )
             }
             DBButton(
