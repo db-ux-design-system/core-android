@@ -27,6 +27,7 @@ import com.dbsystel.designsystem.components.badge.DBBadgeContent.Icon
 import com.dbsystel.designsystem.components.button.DBButton
 import com.dbsystel.designsystem.components.button.DBButtonVariant
 import com.dbsystel.designsystem.components.card.DBCard
+import com.dbsystel.designsystem.components.checkbox.DBCheckbox
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
@@ -110,6 +111,8 @@ fun SemanticView(
 
 @Composable
 fun DemoContent() {
+    var checked by remember { mutableStateOf(false) }
+    var indeterminate by remember { mutableStateOf(true) }
     DBCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedXs),
@@ -151,6 +154,23 @@ fun DemoContent() {
                             contentDescription = null,
                         )
                     ),
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                DBCheckbox(
+                    checked = checked,
+                    label = "Checkbox",
+                    onClick = { checked = !checked },
+                )
+
+                DBCheckbox(
+                    indeterminate = indeterminate,
+                    checked = checked,
+                    label = "Indeterminate",
+                    onClick = { indeterminate = !indeterminate },
                 )
             }
 
