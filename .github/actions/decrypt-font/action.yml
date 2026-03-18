@@ -1,0 +1,18 @@
+name: Decrypt Font
+description: Decrypts the proprietary db_neo_screen_flex font using GPG
+
+inputs:
+  passphrase:
+    description: GPG passphrase to decrypt the font file
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Decrypt font file
+      shell: bash
+      run: |
+        gpg --quiet --batch --yes --decrypt \
+          --passphrase="${{ inputs.passphrase }}" \
+          --output foundation/src/main/res/font/db_neo_screen_flex.ttf \
+          assets/db_neo_screen_flex.ttf.gpg
