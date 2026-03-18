@@ -12,6 +12,7 @@ runs:
     - name: Decrypt font file
       shell: bash
       run: |
+        mkdir -p foundation/src/main/res/font
         gpg --quiet --batch --yes --decrypt \
           --passphrase="${{ inputs.passphrase }}" \
           --output foundation/src/main/res/font/db_neo_screen_flex.ttf \
