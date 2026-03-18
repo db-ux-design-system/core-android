@@ -11,6 +11,8 @@ jobs:
   paparazzi:
     name: Verify Paparazzi Snapshots
     runs-on: ubuntu-latest
+    env:
+      PAPARAZZI_MODULES: "components"
 
     steps:
       - name: Checkout
@@ -25,43 +27,45 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Checkout main branch for reference snapshots
+      - name: Checkout develop branch for reference snapshots
         uses: actions/checkout@v4
         with:
-          ref: main
-          path: main-ref
+          ref: develop
+          path: develop-ref
 
-      - name: Record reference snapshots from main
-        run: ./gradlew recordPaparazziDebug
-        working-directory: main-ref
+      - name: Record reference snapshots from develop
+        run: ./gradlew $(printf ':%s:recordPaparazziDebug ' $PAPARAZZI_MODULES) --continue
+        working-directory: develop-ref
         continue-on-error: true
 
       - name: Copy reference snapshots to PR workspace
         run: |
-          rm -rf app/src/test/snapshots
-          cp -r main-ref/app/src/test/snapshots app/src/test/snapshots
+          for module in $PAPARAZZI_MODULES; do
+            if [ -d "develop-ref/${module}/src/test/snapshots" ]; then
+              rm -rf ${module}/src/test/snapshots
+              cp -r develop-ref/${module}/src/test/snapshots ${module}/src/test/snapshots
+            else
+              echo "No reference snapshots found for module '${module}' on develop — skipping."
+            fi
+          done
 
       - name: Run Paparazzi verification
         id: paparazzi
-        run: ./gradlew verifyPaparazziDebug
+        run: ./gradlew $(printf ':%s:verifyPaparazziDebug ' $PAPARAZZI_MODULES) --continue
         continue-on-error: true
 
       - name: Check for snapshot deltas
         id: delta_check
         if: always()
         run: |
-          DELTA_FILES=$(find app/build/paparazzi/failures -name "delta-*" 2>/dev/null || true)
+          DELTA_FILES=$(find . -path "*/build/paparazzi/failures/delta-*" -not -path "./develop-ref/*" 2>/dev/null || true)
           if [ -n "$DELTA_FILES" ]; then
             DELTA_COUNT=$(echo "$DELTA_FILES" | wc -l | tr -d ' ')
             echo "has_deltas=true" >> "$GITHUB_OUTPUT"
             echo "delta_count=$DELTA_COUNT" >> "$GITHUB_OUTPUT"
-            echo "has_deltas=true"
-            echo "delta_count=$DELTA_COUNT"
           else
             echo "has_deltas=false" >> "$GITHUB_OUTPUT"
             echo "delta_count=0" >> "$GITHUB_OUTPUT"
-            echo "has_deltas=false"
-            echo "delta_count=0"
           fi
 
       - name: Upload Paparazzi diffs
@@ -69,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: paparazzi-diffs
-          path: app/build/paparazzi/failures/delta-**.png
+          path: "**/build/paparazzi/failures/delta-*.png"
           if-no-files-found: ignore
           retention-days: 14
 
