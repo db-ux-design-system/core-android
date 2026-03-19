@@ -6,17 +6,12 @@ inputs:
   passphrase:
     description: GPG passphrase to decrypt the font file
     required: true
-  working-directory:
-    description: Directory in which to decrypt the font (default is root)
-    required: false
-    default: '.'
 
 runs:
   using: composite
   steps:
     - name: Decrypt font file
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
       run: |
         mkdir -p foundation/src/main/res/font
         gpg --quiet --batch --yes --decrypt \

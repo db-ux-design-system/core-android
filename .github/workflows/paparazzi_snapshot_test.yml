@@ -8,15 +8,56 @@ permissions:
   contents: read
   pull-requests: write
 
+env:
+  PAPARAZZI_MODULES: "foundation components"
+
 jobs:
-  paparazzi:
-    name: Verify Paparazzi Snapshots
+  record:
+    name: Record Reference Snapshots
     runs-on: ubuntu-latest
-    env:
-      PAPARAZZI_MODULES: "foundation components"
 
     steps:
-      - name: Checkout
+      - name: Checkout develop branch
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Decrypt font file
+        uses: ./.github/actions/decrypt-font
+        with:
+          passphrase: ${{ secrets.FONT_PASSPHRASE }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Record reference snapshots from develop
+        run: |
+          ./gradlew \
+            $(printf ':%s:recordPaparazziDebug ' "$PAPARAZZI_MODULES") \
+            --continue
+        continue-on-error: true
+
+      - name: Upload reference snapshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: reference-snapshots
+          path: "**/src/test/snapshots/**"
+          if-no-files-found: ignore
+          retention-days: 1
+
+  verify:
+    name: Verify Paparazzi Snapshots
+    runs-on: ubuntu-latest
+    needs: record
+
+    steps:
+      - name: Checkout PR branch
         uses: actions/checkout@v4
 
       - name: Set up Java 21
@@ -33,57 +74,40 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Checkout develop branch for reference snapshots
-        uses: actions/checkout@v4
+      - name: Download reference snapshots
+        uses: actions/download-artifact@v4
         with:
-          ref: develop
-          path: develop-ref
-
-      - name: Decrypt font file for develop reference
-        uses: ./.github/actions/decrypt-font
-        with:
-          passphrase: ${{ secrets.FONT_PASSPHRASE }}
-          working-directory: develop-ref
-
-      - name: Record reference snapshots from develop
-        run: |
-          ./gradlew \
-            $(printf ':%s:recordPaparazziDebug ' $PAPARAZZI_MODULES) \
-            --continue
-        working-directory: develop-ref
-        continue-on-error: true
-
-      - name: Copy reference snapshots to PR workspace
-        run: |
-          for module in $PAPARAZZI_MODULES; do
-            mkdir -p ${module}/src/test/snapshots
-            SNAPSHOT_SRC="develop-ref/${module}/src/test/snapshots"
-            SNAPSHOT_DST="${module}/src/test/snapshots"
-            if [ -d "$SNAPSHOT_SRC" ]; then
-              rm -rf "$SNAPSHOT_DST"
-              cp -r "$SNAPSHOT_SRC" "$SNAPSHOT_DST"
-            else
-              echo "No reference snapshots found for module" \
-                "'${module}' on develop — skipping."
-            fi
-          done
+          name: reference-snapshots
 
       - name: Run Paparazzi verification
-        id: paparazzi
         run: |
           ./gradlew \
-            $(printf ':%s:verifyPaparazziDebug ' $PAPARAZZI_MODULES) \
+            $(printf ':%s:verifyPaparazziDebug ' "$PAPARAZZI_MODULES") \
             --continue
         continue-on-error: true
 
+      - name: Upload Paparazzi diffs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paparazzi-diffs
+          path: "**/build/paparazzi/failures/delta-*.png"
+          if-no-files-found: ignore
+          retention-days: 14
+
+  report:
+    name: Report Snapshot Results
+    runs-on: ubuntu-latest
+    needs: verify
+    if: always()
+
+    steps:
       - name: Check for snapshot deltas
         id: delta_check
-        if: always()
         run: |
           DELTA_FILES=$(
             find . \
               -path "*/build/paparazzi/failures/delta-*" \
-              -not -path "./develop-ref/*" \
               2>/dev/null || true
           )
           if [ -n "$DELTA_FILES" ]; then
@@ -95,17 +119,7 @@ jobs:
             echo "delta_count=0" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Upload Paparazzi diffs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: paparazzi-diffs
-          path: "**/build/paparazzi/failures/delta-*.png"
-          if-no-files-found: ignore
-          retention-days: 14
-
       - name: Post PR comment
-        if: always()
         uses: actions/github-script@v7
         with:
           script: |
@@ -139,8 +153,8 @@ jobs:
                   ' the differences.',
                 '',
                 '---',
-                '_If the changes are intentional (e.g. new snapshot tests' +
-                  ' were added), this comment can be ignored._',
+                '_If the changes are intentional (e.g. new snapshot' +
+                  ' tests were added), this comment can be ignored._',
               ].join('\n');
             } else {
               body = [
@@ -180,10 +194,9 @@ jobs:
             }
 
       - name: Warn on snapshot deltas
-        if: >
-          always() &&
-          steps.delta_check.outputs.has_deltas == 'true'
+        if: steps.delta_check.outputs.has_deltas == 'true'
         run: |
           echo "::warning::Paparazzi snapshot deltas detected \
             (${{ steps.delta_check.outputs.delta_count }} file(s)). \
-            Download the 'paparazzi-diffs' artifact to review the differences."
+            Download the 'paparazzi-diffs' artifact to review \
+            the differences."
