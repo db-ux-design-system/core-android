@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Proprietary font – only the encrypted version (.ttf.gpg) is committed
+foundation/src/main/res/font/db_neo_screen_flex.ttf
+

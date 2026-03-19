@@ -23,6 +23,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Decrypt font file
+        uses: ./.github/actions/decrypt-font
+        with:
+          passphrase: ${{ secrets.FONT_PASSPHRASE }}
+
       - name: Super-linter
         uses: super-linter/super-linter@v7.1.0
         env:
