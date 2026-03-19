@@ -114,12 +114,20 @@ jobs:
     if: always()
 
     steps:
+      - name: Download Paparazzi diffs
+        id: download_diffs
+        uses: actions/download-artifact@v4
+        with:
+          name: paparazzi-diffs
+          path: paparazzi-diffs
+        continue-on-error: true
+
       - name: Check for snapshot deltas
         id: delta_check
         run: |
           DELTA_FILES=$(
-            find . \
-              -path "*/build/paparazzi/failures/delta-*" \
+            find paparazzi-diffs \
+              -name "delta-*" \
               2>/dev/null || true
           )
           if [ -n "$DELTA_FILES" ]; then
