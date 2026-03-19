@@ -38,9 +38,10 @@ jobs:
 
       - name: Record reference snapshots from develop
         run: |
-          ./gradlew \
-            $(printf ':%s:recordPaparazziDebug ' "$PAPARAZZI_MODULES") \
-            --continue
+          read -ra modules <<< "$PAPARAZZI_MODULES"
+          tasks=$(printf ':%s:recordPaparazziDebug ' "${modules[@]}")
+          # shellcheck disable=SC2086
+          ./gradlew $tasks --continue
         continue-on-error: true
 
       - name: Upload reference snapshots
@@ -75,15 +76,26 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Download reference snapshots
+        id: download_snapshots
         uses: actions/download-artifact@v4
         with:
           name: reference-snapshots
+        continue-on-error: true
+
+      - name: Create empty snapshot directories if no reference exists
+        if: steps.download_snapshots.outcome != 'success'
+        run: |
+          read -ra modules <<< "$PAPARAZZI_MODULES"
+          for module in "${modules[@]}"; do
+            mkdir -p "${module}/src/test/snapshots"
+          done
 
       - name: Run Paparazzi verification
         run: |
-          ./gradlew \
-            $(printf ':%s:verifyPaparazziDebug ' "$PAPARAZZI_MODULES") \
-            --continue
+          read -ra modules <<< "$PAPARAZZI_MODULES"
+          tasks=$(printf ':%s:verifyPaparazziDebug ' "${modules[@]}")
+          # shellcheck disable=SC2086
+          ./gradlew $tasks --continue
         continue-on-error: true
 
       - name: Upload Paparazzi diffs
