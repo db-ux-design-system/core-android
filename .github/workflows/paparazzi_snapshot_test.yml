@@ -24,6 +24,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Decrypt font file
+        uses: ./.github/actions/decrypt-font
+        with:
+          passphrase: ${{ secrets.FONT_PASSPHRASE }}
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
@@ -32,6 +37,12 @@ jobs:
         with:
           ref: develop
           path: develop-ref
+
+      - name: Decrypt font file for develop reference
+        uses: ./.github/actions/decrypt-font
+        with:
+          passphrase: ${{ secrets.FONT_PASSPHRASE }}
+          working-directory: develop-ref
 
       - name: Record reference snapshots from develop
         run: ./gradlew $(printf ':%s:recordPaparazziDebug ' $PAPARAZZI_MODULES) --continue
