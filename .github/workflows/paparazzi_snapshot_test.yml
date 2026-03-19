@@ -52,6 +52,7 @@ jobs:
       - name: Copy reference snapshots to PR workspace
         run: |
           for module in $PAPARAZZI_MODULES; do
+            mkdir -p ${module}/src/test/snapshots
             if [ -d "develop-ref/${module}/src/test/snapshots" ]; then
               rm -rf ${module}/src/test/snapshots
               cp -r develop-ref/${module}/src/test/snapshots ${module}/src/test/snapshots
