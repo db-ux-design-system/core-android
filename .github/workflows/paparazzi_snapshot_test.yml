@@ -12,7 +12,7 @@ jobs:
     name: Verify Paparazzi Snapshots
     runs-on: ubuntu-latest
     env:
-      PAPARAZZI_MODULES: "components"
+      PAPARAZZI_MODULES: "foundation components"
 
     steps:
       - name: Checkout
