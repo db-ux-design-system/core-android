@@ -1,10 +1,13 @@
 package com.dbsystel.designsystem.components.checkbox
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,12 +32,14 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColor
+import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColorPressed
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxInvertedColor
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxSize
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxTransparentColor
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxTransparentPressedColor
 import com.dbsystel.designsystem.components.checkbox.extensions.spacing
 import com.dbsystel.designsystem.components.checkbox.extensions.textColor
+import com.dbsystel.designsystem.components.checkbox.extensions.textColorPressed
 import com.dbsystel.designsystem.components.checkbox.extensions.textStyle
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
@@ -116,13 +121,28 @@ fun DBCheckbox(
         calculatedPadding = (size.checkboxSize.toPx() - lineHeight).toDp() / 2f
     }
     val textPadding by remember(calculatedPadding) { derivedStateOf { calculatedPadding } }
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+    val textColor by animateColorAsState(
+        targetValue = if (pressed) validation.textColorPressed else validation.textColor,
+        label = "Text color animation",
+    )
+    val checkboxBackgroundColor by animateColorAsState(
+        targetValue = if (pressed) validation.checkboxTransparentPressedColor else validation.checkboxTransparentColor,
+        label = "Text color animation",
+    )
+
+    val checkboxColor by animateColorAsState(
+        targetValue = if (pressed) validation.checkboxColorPressed else validation.checkboxColor,
+        label = "Text color animation",
+    )
 
     Column(
         modifier = modifier
             .withAlphaForDisabledState(disabled)
             .triStateToggleable(
                 state = triState,
-                interactionSource = null,
+                interactionSource = interactionSource,
                 indication = ripple(color = validation.checkboxTransparentPressedColor),
                 enabled = !disabled,
                 role = Role.Checkbox,
@@ -136,19 +156,20 @@ fun DBCheckbox(
                 modifier = Modifier.size(size.checkboxSize),
                 state = triState,
                 enabled = !disabled,
+                interactionSource = interactionSource,
                 colors = CheckboxColors(
-                    checkedCheckmarkColor = if (indeterminate) validation.checkboxColor else validation.checkboxInvertedColor,
-                    uncheckedCheckmarkColor = validation.checkboxColor,
-                    checkedBoxColor = if (indeterminate) validation.checkboxTransparentColor else validation.checkboxColor,
-                    uncheckedBoxColor = validation.checkboxTransparentColor,
-                    disabledCheckedBoxColor = validation.checkboxColor,
-                    disabledUncheckedBoxColor = validation.checkboxTransparentColor,
-                    disabledIndeterminateBoxColor = validation.checkboxColor,
-                    checkedBorderColor = validation.checkboxColor,
-                    uncheckedBorderColor = validation.checkboxColor,
-                    disabledBorderColor = validation.checkboxColor,
-                    disabledUncheckedBorderColor = validation.checkboxColor,
-                    disabledIndeterminateBorderColor = validation.checkboxColor,
+                    checkedCheckmarkColor = if (indeterminate) checkboxColor else validation.checkboxInvertedColor,
+                    uncheckedCheckmarkColor = checkboxColor,
+                    checkedBoxColor = if (indeterminate) checkboxBackgroundColor else checkboxColor,
+                    uncheckedBoxColor = checkboxBackgroundColor,
+                    disabledCheckedBoxColor = checkboxColor,
+                    disabledUncheckedBoxColor = checkboxBackgroundColor,
+                    disabledIndeterminateBoxColor = checkboxColor,
+                    checkedBorderColor = checkboxColor,
+                    uncheckedBorderColor = checkboxColor,
+                    disabledBorderColor = checkboxColor,
+                    disabledUncheckedBorderColor = checkboxColor,
+                    disabledIndeterminateBorderColor = checkboxColor,
                 ),
                 onClick = onClick,
             )
@@ -161,7 +182,7 @@ fun DBCheckbox(
                     },
                     text = "$label${if (showRequiredAsterisk) "*" else ""}",
                     style = size.textStyle,
-                    color = validation.textColor,
+                    color = textColor,
                 )
             }
         }

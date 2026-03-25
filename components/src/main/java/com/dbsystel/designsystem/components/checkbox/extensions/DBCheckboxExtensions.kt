@@ -46,10 +46,17 @@ private fun DBCheckboxValidation.validationColor() = when (this) {
 internal val DBCheckboxValidation.checkboxColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        is DBCheckboxValidation.Invalid -> DBTheme.colors.critical.onBgBasicEmphasis70Default
-        is DBCheckboxValidation.Valid -> DBTheme.colors.successful.onBgBasicEmphasis70Default
-        DBCheckboxValidation.NoValidation -> DBTheme.activeColor.onBgBasicEmphasis100Default
+    get() = validationColor().let {
+        if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Default
+        else it.onBgBasicEmphasis70Default
+    }
+
+internal val DBCheckboxValidation.checkboxColorPressed: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = validationColor().let {
+        if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Pressed
+        else it.onBgBasicEmphasis70Pressed
     }
 
 internal val DBCheckboxValidation.checkboxInvertedColor: Color
@@ -73,5 +80,13 @@ internal val DBCheckboxValidation.textColor: Color
     get() = validationColor().let {
         if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Default
         else it.onBgBasicEmphasis80Default
+    }
+
+internal val DBCheckboxValidation.textColorPressed: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = validationColor().let {
+        if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Pressed
+        else it.onBgBasicEmphasis80Pressed
     }
 // endregion

@@ -98,10 +98,9 @@ fun DBButton(
             color = DBTheme.activeColor.onBgBasicEmphasis100Default
         ) else null,
         shape = shape,
-        modifier = Modifier
+        modifier = modifier
             .then(if (iconOnly) Modifier.size(size.size) else Modifier.height(size.size))
-            .withAlphaForDisabledState(disabled)
-            .then(modifier),
+            .withAlphaForDisabledState(disabled),
         onClick = onClick,
         enabled = !disabled,
         colors = ButtonColors(
