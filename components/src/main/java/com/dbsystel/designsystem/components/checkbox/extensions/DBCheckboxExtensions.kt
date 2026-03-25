@@ -35,6 +35,14 @@ internal val DBSize.textStyle: TextStyle
     }
 
 // region Colors
+@Composable
+@ReadOnlyComposable
+private fun DBCheckboxValidation.validationColor() = when (this) {
+    is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
+    is DBCheckboxValidation.Valid -> DBTheme.colors.successful
+    DBCheckboxValidation.NoValidation -> DBTheme.activeColor
+}
+
 internal val DBCheckboxValidation.checkboxColor: Color
     @Composable
     @ReadOnlyComposable
@@ -47,36 +55,20 @@ internal val DBCheckboxValidation.checkboxColor: Color
 internal val DBCheckboxValidation.checkboxInvertedColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
-        is DBCheckboxValidation.Valid -> DBTheme.colors.successful
-        DBCheckboxValidation.NoValidation -> DBTheme.activeColor
-    }.onBgInvertedDefault
+    get() = validationColor().onBgInvertedDefault
 
 internal val DBCheckboxValidation.checkboxTransparentColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
-        is DBCheckboxValidation.Valid -> DBTheme.colors.successful
-        DBCheckboxValidation.NoValidation -> DBTheme.activeColor
-    }.bgBasicTransparentFullDefault
+    get() = validationColor().bgBasicTransparentFullDefault
 
 internal val DBCheckboxValidation.checkboxTransparentPressedColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
-        is DBCheckboxValidation.Valid -> DBTheme.colors.successful
-        DBCheckboxValidation.NoValidation -> DBTheme.activeColor
-    }.bgBasicTransparentFullPressed
+    get() = validationColor().bgBasicTransparentFullPressed
 
 internal val DBCheckboxValidation.textColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
-        is DBCheckboxValidation.Valid -> DBTheme.colors.successful
-        DBCheckboxValidation.NoValidation -> DBTheme.activeColor
-    }.Basic.Text.Emphasis100.Default
+    get() = validationColor().Basic.Text.Emphasis100.Default
 // endregion
