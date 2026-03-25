@@ -23,7 +23,7 @@ import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.withAlphaForDisabledState
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.link.extensions.color
 import com.dbsystel.designsystem.components.link.extensions.iconRes
 import com.dbsystel.designsystem.components.link.extensions.iconSize

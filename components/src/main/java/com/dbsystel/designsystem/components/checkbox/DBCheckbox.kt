@@ -38,10 +38,10 @@ import com.dbsystel.designsystem.components.checkbox.extensions.textColor
 import com.dbsystel.designsystem.components.checkbox.extensions.textStyle
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.infotext.DBInfotext
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import kotlin.math.max

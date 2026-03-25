@@ -1,4 +1,4 @@
-package com.dbsystel.designsystem.components.core
+package com.dbsystel.designsystem.components.core.extensions
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha

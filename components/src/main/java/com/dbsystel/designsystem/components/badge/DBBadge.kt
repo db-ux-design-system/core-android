@@ -77,15 +77,13 @@ fun DBBadge(
                 minHeight = if (content is DBBadgeContent.Dot) size.dotSize else 14.dp,
                 minWidth = if (content is DBBadgeContent.Dot) size.dotSize else 0.dp,
             )
-            .padding(
-                horizontal = if (content is DBBadgeContent.Text) size.horizontalPadding else 0.dp,
-            )
             .then(modifier),
         verticalArrangement = Arrangement.Center,
     ) {
         when (content) {
             is DBBadgeContent.Text -> {
                 Text(
+                    modifier = Modifier.padding(horizontal = size.horizontalPadding),
                     text = content.text,
                     color = semantic.textColor(emphasis),
                     style = size.textStyle.copy(fontWeight = FontWeight.W700),
