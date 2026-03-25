@@ -51,12 +51,20 @@ internal val DBCheckboxValidation.checkboxColor: Color
         else it.onBgBasicEmphasis70Default
     }
 
-internal val DBCheckboxValidation.checkboxColorPressed: Color
+internal val DBCheckboxValidation.checkboxColorChecked: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
-        if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Pressed
-        else it.onBgBasicEmphasis70Pressed
+        if (this == DBCheckboxValidation.NoValidation) it.bgInvertedContrastMaxDefault
+        else it.bgInvertedContrastLowDefault
+    }
+
+internal val DBCheckboxValidation.checkboxColorCheckedPressed: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = validationColor().let {
+        if (this == DBCheckboxValidation.NoValidation) it.bgInvertedContrastMaxPressed
+        else it.bgInvertedContrastLowPressed
     }
 
 internal val DBCheckboxValidation.checkboxInvertedColor: Color

@@ -32,7 +32,8 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColor
-import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColorPressed
+import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColorChecked
+import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColorCheckedPressed
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxInvertedColor
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxSize
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxTransparentColor
@@ -123,18 +124,32 @@ fun DBCheckbox(
     val textPadding by remember(calculatedPadding) { derivedStateOf { calculatedPadding } }
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
+
     val textColor by animateColorAsState(
-        targetValue = if (pressed) validation.textColorPressed else validation.textColor,
-        label = "Text color animation",
-    )
-    val checkboxBackgroundColor by animateColorAsState(
-        targetValue = if (pressed) validation.checkboxTransparentPressedColor else validation.checkboxTransparentColor,
+        targetValue = when {
+            pressed -> validation.textColorPressed
+            else -> validation.textColor
+        },
         label = "Text color animation",
     )
 
+    // Used for unchecked or indeterminate checkbox background
+    val checkboxBackgroundColor by animateColorAsState(
+        targetValue = when {
+            pressed -> validation.checkboxTransparentPressedColor
+            else -> validation.checkboxTransparentColor
+        },
+        label = "Checkbox background color animation",
+    )
+
+    // Used for border, indeterminate icon and checked background color
     val checkboxColor by animateColorAsState(
-        targetValue = if (pressed) validation.checkboxColorPressed else validation.checkboxColor,
-        label = "Text color animation",
+        targetValue = when {
+            pressed && checked && !indeterminate -> validation.checkboxColorCheckedPressed
+            checked && !indeterminate -> validation.checkboxColorChecked
+            else -> validation.checkboxColor
+        },
+        label = "Checkbox color animation",
     )
 
     Column(
