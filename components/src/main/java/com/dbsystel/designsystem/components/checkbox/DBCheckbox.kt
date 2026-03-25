@@ -88,6 +88,21 @@ fun DBCheckbox(
         }
     }
 
+    val validationSemantic = remember(validation) {
+        when (validation) {
+            is DBCheckboxValidation.Invalid -> DBSemantic.CRITICAL
+            else -> DBSemantic.SUCCESSFUL
+        }
+    }
+
+    var lastValidationText by remember { mutableStateOf(validationText) }
+    var lastValidationSemantic by remember { mutableStateOf(validationSemantic) }
+
+    if (validationText != null) {
+        lastValidationText = validationText
+        lastValidationSemantic = validationSemantic
+    }
+
     val triState = remember(indeterminate, checked) {
         when {
             indeterminate -> ToggleableState.Indeterminate
@@ -113,7 +128,6 @@ fun DBCheckbox(
                 role = Role.Checkbox,
                 onClick = onClick,
             ),
-        verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixed2xs),
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(size.spacing),
@@ -158,12 +172,10 @@ fun DBCheckbox(
             exit = shrinkVertically() + fadeOut(),
         ) {
             DBInfotext(
-                text = validationText ?: "",
+                modifier = Modifier.padding(top = DBTheme.dimensions.spacing.fixed2xs),
+                text = lastValidationText ?: "",
                 size = DBSize.SMALL,
-                semantic = when (validation) {
-                    is DBCheckboxValidation.Invalid -> DBSemantic.CRITICAL
-                    else -> DBSemantic.SUCCESSFUL
-                },
+                semantic = lastValidationSemantic,
             )
         }
     }

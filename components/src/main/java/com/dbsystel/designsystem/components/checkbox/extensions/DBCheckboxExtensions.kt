@@ -70,5 +70,8 @@ internal val DBCheckboxValidation.checkboxTransparentPressedColor: Color
 internal val DBCheckboxValidation.textColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = validationColor().Basic.Text.Emphasis100.Default
+    get() = validationColor().let {
+        if (this == DBCheckboxValidation.NoValidation) it.onBgBasicEmphasis100Default
+        else it.onBgBasicEmphasis80Default
+    }
 // endregion

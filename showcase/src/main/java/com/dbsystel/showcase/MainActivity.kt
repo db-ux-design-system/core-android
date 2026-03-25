@@ -28,6 +28,7 @@ import com.dbsystel.designsystem.components.button.DBButton
 import com.dbsystel.designsystem.components.button.DBButtonVariant
 import com.dbsystel.designsystem.components.card.DBCard
 import com.dbsystel.designsystem.components.checkbox.DBCheckbox
+import com.dbsystel.designsystem.components.checkbox.DBCheckboxValidation
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
@@ -113,6 +114,11 @@ fun SemanticView(
 fun DemoContent() {
     var checked by remember { mutableStateOf(false) }
     var indeterminate by remember { mutableStateOf(true) }
+    var checkboxValidationState by remember {
+        mutableStateOf<DBCheckboxValidation>(
+            DBCheckboxValidation.NoValidation
+        )
+    }
     DBCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedXs),
@@ -163,6 +169,7 @@ fun DemoContent() {
                 DBCheckbox(
                     checked = checked,
                     label = "Checkbox",
+                    validation = checkboxValidationState,
                     onClick = { checked = !checked },
                 )
 
@@ -189,7 +196,13 @@ fun DemoContent() {
             DBButton(
                 text = "Login",
                 variant = DBButtonVariant.FILLED,
-                onClick = {},
+                onClick = {
+                    checkboxValidationState = when (checkboxValidationState) {
+                        DBCheckboxValidation.NoValidation -> DBCheckboxValidation.Valid("Success message")
+                        is DBCheckboxValidation.Valid -> DBCheckboxValidation.Invalid("Error message")
+                        is DBCheckboxValidation.Invalid -> DBCheckboxValidation.NoValidation
+                    }
+                },
             )
         }
     }
