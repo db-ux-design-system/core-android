@@ -113,6 +113,14 @@ class DBCheckboxTest : PaparazziTest() {
                             }
                         },
                     ),
+                    BasePreviewProperties(
+                        property = "Show Label",
+                        views = listOf(true, false).map { showLabel ->
+                            (if (showLabel) "(Def) True" else "False") to {
+                                DBCheckbox(showLabel = showLabel, label = "Label") {}
+                            }
+                        },
+                    ),
                 ),
             )
         }
