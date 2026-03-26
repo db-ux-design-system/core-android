@@ -170,6 +170,8 @@ fun DemoContent() {
                     checked = checked,
                     label = "Checkbox",
                     validation = checkboxValidationState,
+                    message = "Message",
+                    showMessage = checked,
                     onClick = { checked = !checked },
                 )
 
@@ -177,6 +179,7 @@ fun DemoContent() {
                     indeterminate = indeterminate,
                     checked = checked,
                     label = "Indeterminate",
+                    validation = checkboxValidationState,
                     onClick = { indeterminate = !indeterminate },
                 )
             }

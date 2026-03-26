@@ -1,7 +1,10 @@
 package com.dbsystel.designsystem.components.checkbox.extensions
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.material3.CheckboxColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
@@ -36,6 +39,47 @@ internal val DBSize.textStyle: TextStyle
 
 // region Colors
 @Composable
+internal fun DBCheckboxValidation.checkboxColors(
+    checked: Boolean,
+    indeterminate: Boolean,
+    pressed: Boolean,
+): CheckboxColors {
+    // Used for unchecked or indeterminate checkbox background
+    val checkboxBackgroundColor by animateColorAsState(
+        targetValue = when {
+            pressed -> checkboxColorTransparentPressed
+            else -> checkboxColorTransparent
+        },
+        label = "Checkbox background color animation",
+    )
+
+    // Used for border, indeterminate icon and checked background color
+    val checkboxColor by animateColorAsState(
+        targetValue = when {
+            pressed && checked && !indeterminate -> checkboxColorCheckedPressed
+            checked && !indeterminate -> checkboxColorCheckedDefault
+            else -> checkboxColorDefault
+        },
+        label = "Checkbox color animation",
+    )
+
+    return CheckboxColors(
+        checkedCheckmarkColor = if (indeterminate) checkboxColor else checkboxColorInverted,
+        uncheckedCheckmarkColor = checkboxColor,
+        checkedBoxColor = if (indeterminate) checkboxBackgroundColor else checkboxColor,
+        uncheckedBoxColor = checkboxBackgroundColor,
+        disabledCheckedBoxColor = checkboxColor,
+        disabledUncheckedBoxColor = checkboxBackgroundColor,
+        disabledIndeterminateBoxColor = checkboxColor,
+        checkedBorderColor = checkboxColor,
+        uncheckedBorderColor = checkboxColor,
+        disabledBorderColor = checkboxColor,
+        disabledUncheckedBorderColor = checkboxColor,
+        disabledIndeterminateBorderColor = checkboxColor,
+    )
+}
+
+@Composable
 @ReadOnlyComposable
 private fun DBCheckboxValidation.validationColor() = when (this) {
     is DBCheckboxValidation.Invalid -> DBTheme.colors.critical
@@ -43,7 +87,7 @@ private fun DBCheckboxValidation.validationColor() = when (this) {
     DBCheckboxValidation.NoValidation -> DBTheme.activeColor
 }
 
-internal val DBCheckboxValidation.checkboxColor: Color
+private val DBCheckboxValidation.checkboxColorDefault: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
@@ -51,7 +95,7 @@ internal val DBCheckboxValidation.checkboxColor: Color
         else it.onBgBasicEmphasis70Default
     }
 
-internal val DBCheckboxValidation.checkboxColorChecked: Color
+private val DBCheckboxValidation.checkboxColorCheckedDefault: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
@@ -59,7 +103,7 @@ internal val DBCheckboxValidation.checkboxColorChecked: Color
         else it.bgInvertedContrastLowDefault
     }
 
-internal val DBCheckboxValidation.checkboxColorCheckedPressed: Color
+private val DBCheckboxValidation.checkboxColorCheckedPressed: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
@@ -67,22 +111,33 @@ internal val DBCheckboxValidation.checkboxColorCheckedPressed: Color
         else it.bgInvertedContrastLowPressed
     }
 
-internal val DBCheckboxValidation.checkboxInvertedColor: Color
+private val DBCheckboxValidation.checkboxColorInverted: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().onBgInvertedDefault
 
-internal val DBCheckboxValidation.checkboxTransparentColor: Color
+private val DBCheckboxValidation.checkboxColorTransparent: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().bgBasicTransparentFullDefault
 
-internal val DBCheckboxValidation.checkboxTransparentPressedColor: Color
+internal val DBCheckboxValidation.checkboxColorTransparentPressed: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().bgBasicTransparentFullPressed
 
-internal val DBCheckboxValidation.textColor: Color
+@Composable
+internal fun DBCheckboxValidation.textColor(pressed: Boolean): Color {
+    return animateColorAsState(
+        targetValue = when {
+            pressed -> textColorPressed
+            else -> textColorDefault
+        },
+        label = "Text color animation",
+    ).value
+}
+
+private val DBCheckboxValidation.textColorDefault: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
@@ -90,7 +145,7 @@ internal val DBCheckboxValidation.textColor: Color
         else it.onBgBasicEmphasis80Default
     }
 
-internal val DBCheckboxValidation.textColorPressed: Color
+private val DBCheckboxValidation.textColorPressed: Color
     @Composable
     @ReadOnlyComposable
     get() = validationColor().let {
