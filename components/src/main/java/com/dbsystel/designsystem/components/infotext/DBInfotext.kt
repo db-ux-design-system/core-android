@@ -88,7 +88,7 @@ private fun DBInfotextPreview() {
         preview = {
             DBSemantic.entries.forEach { semantic ->
                 DBInfotext(
-                    text = "Text",
+                    text = "Infotext",
                     semantic = semantic,
                 )
             }

@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +66,7 @@ fun DBBadge(
     val shape = RoundedCornerShape(CornerSize(percent = 50))
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(color = semantic.backgroundColor(emphasis), shape = shape)
             .border(
                 width = DBTheme.dimensions.border.width3xs,
@@ -76,16 +77,13 @@ fun DBBadge(
             .sizeIn(
                 minHeight = if (content is DBBadgeContent.Dot) size.dotSize else 14.dp,
                 minWidth = if (content is DBBadgeContent.Dot) size.dotSize else 0.dp,
-            )
-            .padding(
-                horizontal = if (content is DBBadgeContent.Text) size.horizontalPadding else 0.dp,
-            )
-            .then(modifier),
+            ),
         verticalArrangement = Arrangement.Center,
     ) {
         when (content) {
             is DBBadgeContent.Text -> {
                 Text(
+                    modifier = Modifier.padding(horizontal = size.horizontalPadding),
                     text = content.text,
                     color = semantic.textColor(emphasis),
                     style = size.textStyle.copy(fontWeight = FontWeight.W700),

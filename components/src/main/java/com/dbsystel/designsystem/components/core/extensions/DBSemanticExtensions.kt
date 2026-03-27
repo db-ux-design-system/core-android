@@ -21,15 +21,19 @@ import com.dbsystel.designsystem.foundation.theme.DBTheme
 // region Colors
 @Composable
 @ReadOnlyComposable
+private fun DBSemantic.semanticColor() = when (this) {
+    ADAPTIVE -> DBTheme.activeColor
+    NEUTRAL -> DBTheme.colors.neutral
+    CRITICAL -> DBTheme.colors.critical
+    INFORMATIONAL -> DBTheme.colors.informational
+    WARNING -> DBTheme.colors.warning
+    SUCCESSFUL -> DBTheme.colors.successful
+}
+
+@Composable
+@ReadOnlyComposable
 internal fun DBSemantic.backgroundColor(emphasis: DBEmphasis? = null): Color =
-    when (this) {
-        ADAPTIVE -> DBTheme.activeColor
-        NEUTRAL -> DBTheme.colors.neutral
-        CRITICAL -> DBTheme.colors.critical
-        INFORMATIONAL -> DBTheme.colors.informational
-        WARNING -> DBTheme.colors.warning
-        SUCCESSFUL -> DBTheme.colors.successful
-    }.let {
+    semanticColor().let {
         if (emphasis == STRONG) it.bgVibrantDefault
         else it.Basic.Background.Level3.Default
     }
@@ -38,26 +42,12 @@ internal fun DBSemantic.backgroundColor(emphasis: DBEmphasis? = null): Color =
 internal val DBSemantic.iconColor70: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        ADAPTIVE -> DBTheme.activeColor
-        NEUTRAL -> DBTheme.colors.neutral
-        CRITICAL -> DBTheme.colors.critical
-        INFORMATIONAL -> DBTheme.colors.informational
-        WARNING -> DBTheme.colors.warning
-        SUCCESSFUL -> DBTheme.colors.successful
-    }.Basic.Icon.Emphasis70.Default
+    get() = semanticColor().Basic.Icon.Emphasis70.Default
 
 @Composable
 @ReadOnlyComposable
 internal fun DBSemantic.iconColor(emphasis: DBEmphasis? = null): Color =
-    when (this) {
-        ADAPTIVE -> DBTheme.activeColor
-        NEUTRAL -> DBTheme.colors.neutral
-        CRITICAL -> DBTheme.colors.critical
-        INFORMATIONAL -> DBTheme.colors.informational
-        WARNING -> DBTheme.colors.warning
-        SUCCESSFUL -> DBTheme.colors.successful
-    }.let {
+    semanticColor().let {
         if (emphasis == STRONG) it.onBgVibrantDefault
         else it.Basic.Icon.Emphasis100.Default
     }
@@ -65,14 +55,7 @@ internal fun DBSemantic.iconColor(emphasis: DBEmphasis? = null): Color =
 @Composable
 @ReadOnlyComposable
 internal fun DBSemantic.textColor(emphasis: DBEmphasis? = null): Color =
-    when (this) {
-        ADAPTIVE -> DBTheme.activeColor
-        NEUTRAL -> DBTheme.colors.neutral
-        CRITICAL -> DBTheme.colors.critical
-        INFORMATIONAL -> DBTheme.colors.informational
-        WARNING -> DBTheme.colors.warning
-        SUCCESSFUL -> DBTheme.colors.successful
-    }.let {
+    semanticColor().let {
         if (emphasis == STRONG) it.onBgVibrantDefault
         else it.Basic.Text.Emphasis80.Default
     }
@@ -80,14 +63,7 @@ internal fun DBSemantic.textColor(emphasis: DBEmphasis? = null): Color =
 internal val DBSemantic.borderColor: Color
     @Composable
     @ReadOnlyComposable
-    get() = when (this) {
-        ADAPTIVE -> DBTheme.activeColor
-        NEUTRAL -> DBTheme.colors.neutral
-        CRITICAL -> DBTheme.colors.critical
-        INFORMATIONAL -> DBTheme.colors.informational
-        WARNING -> DBTheme.colors.warning
-        SUCCESSFUL -> DBTheme.colors.successful
-    }.Basic.Border.Emphasis70.Default
+    get() = semanticColor().Basic.Border.Emphasis70.Default
 // endregion
 
 // region Icons

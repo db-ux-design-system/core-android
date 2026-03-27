@@ -27,9 +27,11 @@ import com.dbsystel.designsystem.components.badge.DBBadgeContent.Icon
 import com.dbsystel.designsystem.components.button.DBButton
 import com.dbsystel.designsystem.components.button.DBButtonVariant
 import com.dbsystel.designsystem.components.card.DBCard
+import com.dbsystel.designsystem.components.checkbox.DBCheckbox
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.infotext.DBInfotext
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
@@ -110,6 +112,13 @@ fun SemanticView(
 
 @Composable
 fun DemoContent() {
+    var checked by remember { mutableStateOf(false) }
+    var indeterminate by remember { mutableStateOf(true) }
+    var checkboxValidationState by remember {
+        mutableStateOf<DBValidation>(
+            DBValidation.NoValidation
+        )
+    }
     DBCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedXs),
@@ -154,6 +163,27 @@ fun DemoContent() {
                 )
             }
 
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                DBCheckbox(
+                    checked = checked,
+                    label = "Checkbox",
+                    validation = checkboxValidationState,
+                    message = "Message",
+                    showMessage = checked,
+                    onClick = { checked = !checked },
+                )
+
+                DBCheckbox(
+                    indeterminate = indeterminate,
+                    checked = checked,
+                    label = "Indeterminate",
+                    validation = checkboxValidationState,
+                    onClick = { indeterminate = !indeterminate },
+                )
+            }
+
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -169,7 +199,13 @@ fun DemoContent() {
             DBButton(
                 text = "Login",
                 variant = DBButtonVariant.FILLED,
-                onClick = {},
+                onClick = {
+                    checkboxValidationState = when (checkboxValidationState) {
+                        DBValidation.NoValidation -> DBValidation.Valid("Success message")
+                        is DBValidation.Valid -> DBValidation.Invalid("Error message")
+                        is DBValidation.Invalid -> DBValidation.NoValidation
+                    }
+                },
             )
         }
     }

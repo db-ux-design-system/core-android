@@ -25,13 +25,13 @@ import com.dbsystel.designsystem.components.card.DBCardSpacing
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
-data class BasePreviewProperties(
+internal data class BasePreviewProperties(
     val property: String,
     val views: List<Pair<String, @Composable () -> Unit>>,
 )
 
 @Composable
-fun BasePreview(
+internal fun BasePreview(
     component: String,
     preview: @Composable RowScope.() -> Unit,
     properties: List<BasePreviewProperties>,
@@ -123,6 +123,7 @@ private fun SectionProperties(
             ) {
                 Text(
                     text = property,
+                    style = DBTheme.typography.bodySm,
                 )
                 DBCard(
                     modifier = Modifier.fillMaxWidth(),
