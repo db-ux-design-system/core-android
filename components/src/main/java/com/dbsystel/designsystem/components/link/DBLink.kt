@@ -68,7 +68,7 @@ fun DBLink(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .withAlphaForDisabledState(disabled)
             .clickable(
                 enabled = !disabled,
@@ -77,8 +77,7 @@ fun DBLink(
                 role = Role.Button,
                 indication = null,
             )
-            .heightIn(min = size.iconSize)
-            .then(modifier),
+            .heightIn(min = size.iconSize),
         horizontalArrangement = Arrangement.spacedBy(size.paddingH),
         verticalAlignment = Alignment.CenterVertically,
     ) {
