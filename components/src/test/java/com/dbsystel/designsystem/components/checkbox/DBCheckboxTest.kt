@@ -1,6 +1,7 @@
 package com.dbsystel.designsystem.components.checkbox
 
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.core.PaparazziTest
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
@@ -12,8 +13,8 @@ class DBCheckboxTest : PaparazziTest() {
     @Test
     fun test_component_dbcheckbox() {
         paparazzi.snapshot {
-            val invalidState = DBCheckboxValidation.Invalid("Invalid Message")
-            val validState = DBCheckboxValidation.Valid("Valid Message")
+            val invalidState = DBValidation.Invalid("Invalid Message")
+            val validState = DBValidation.Valid("Valid Message")
             BasePreview(
                 component = "DBCheckbox",
                 preview = {
@@ -106,10 +107,14 @@ class DBCheckboxTest : PaparazziTest() {
                         ),
                     ),
                     BasePreviewProperties(
-                        property = "Show Label",
-                        views = listOf(true, false).map { showLabel ->
-                            (if (showLabel) "(Def) True" else "False") to {
-                                DBCheckbox(showLabel = showLabel, label = "Label") {}
+                        property = "Show Message",
+                        views = listOf(false, true).map { showMessage ->
+                            (if (!showMessage) "(Def) False" else "True") to {
+                                DBCheckbox(
+                                    showMessage = showMessage,
+                                    message = "Message",
+                                    label = "Label",
+                                ) {}
                             }
                         },
                     ),

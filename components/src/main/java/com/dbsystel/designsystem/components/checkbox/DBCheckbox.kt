@@ -59,6 +59,9 @@ import kotlin.math.max
  * @param showRequiredAsterisk If true, an asterisk will be appended to the label to indicate that
  * the checkbox is required. This has no semantic meaning and is purely visual.
  * @param showLabel Controls whether the label should be displayed.
+ * @param message The validation message to be displayed when the checkbox is in the
+ * [DBValidation.NoValidation] state.
+ * @param showMessage Controls whether the validation message should be displayed or not.
  * @param size The size of the checkbox, which also determines the text style and spacing.
  * @param validation The validation state of the checkbox, which controls the display of validation
  * messages and colors.
