@@ -33,7 +33,6 @@ import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColors
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxSize
 import com.dbsystel.designsystem.components.checkbox.extensions.spacing
 import com.dbsystel.designsystem.components.checkbox.extensions.textStyle
-import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.core.extensions.backgroundColorTransparentPressed
@@ -42,6 +41,7 @@ import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabled
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
+import com.dbsystel.designsystem.components.core.rememberValidationState
 import com.dbsystel.designsystem.components.infotext.DBInfotext
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import kotlin.math.max
@@ -82,29 +82,10 @@ fun DBCheckbox(
     disabled: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val validationText: String? = remember(validation, message, showMessage) {
-        when (validation) {
-            is DBValidation.Invalid -> validation.text
-            is DBValidation.Valid -> validation.text
-            DBValidation.NoValidation -> message.takeIf { showMessage }
-        }
-    }
-
-    val validationSemantic = remember(validation) {
-        when (validation) {
-            is DBValidation.Invalid -> DBSemantic.CRITICAL
-            is DBValidation.Valid -> DBSemantic.SUCCESSFUL
-            else -> DBSemantic.ADAPTIVE
-        }
-    }
-
-    var lastValidationText by remember { mutableStateOf(validationText) }
-    var lastValidationSemantic by remember { mutableStateOf(validationSemantic) }
-
-    if (validationText != null) {
-        lastValidationText = validationText
-        lastValidationSemantic = validationSemantic
-    }
+    val validationState = validation.rememberValidationState(
+        message = message,
+        showMessage = showMessage,
+    )
 
     val triState = remember(indeterminate, checked) {
         when {
@@ -165,15 +146,15 @@ fun DBCheckbox(
         }
 
         AnimatedVisibility(
-            visible = validationText != null || (showMessage && !message.isNullOrBlank()),
+            visible = validationState.show,
             enter = expandVertically() + fadeIn(),
             exit = shrinkVertically() + fadeOut(),
         ) {
             DBInfotext(
                 modifier = Modifier.padding(top = DBTheme.dimensions.spacing.fixed2xs),
-                text = lastValidationText ?: "",
+                text = validationState.text ?: "",
                 size = DBSize.SMALL,
-                semantic = lastValidationSemantic,
+                semantic = validationState.semantic,
             )
         }
     }
