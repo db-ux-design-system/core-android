@@ -3,8 +3,8 @@ package com.dbsystel.designsystem.components.checkbox.preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.dbsystel.designsystem.components.checkbox.DBCheckbox
-import com.dbsystel.designsystem.components.checkbox.DBCheckboxValidation
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.DBValidation
 
 @Preview
 @Composable
@@ -16,7 +16,7 @@ private fun DBCheckboxSample() {
         showRequiredAsterisk = true,
         showLabel = true,
         size = DBSize.MEDIUM,
-        validation = DBCheckboxValidation.Valid("Looks good!"),
+        validation = DBValidation.Valid("Looks good!"),
         disabled = false,
         onClick = { /* Do something! */ },
     )

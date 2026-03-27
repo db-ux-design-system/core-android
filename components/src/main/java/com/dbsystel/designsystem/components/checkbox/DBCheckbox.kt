@@ -29,14 +29,15 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColorTransparentPressed
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColors
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxSize
 import com.dbsystel.designsystem.components.checkbox.extensions.spacing
-import com.dbsystel.designsystem.components.checkbox.extensions.textColor
 import com.dbsystel.designsystem.components.checkbox.extensions.textStyle
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.DBValidation
+import com.dbsystel.designsystem.components.core.extensions.backgroundColorTransparentPressed
+import com.dbsystel.designsystem.components.core.extensions.textColor
 import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
@@ -77,22 +78,22 @@ fun DBCheckbox(
     message: String? = null,
     showMessage: Boolean = false,
     size: DBSize = DBSize.MEDIUM,
-    validation: DBCheckboxValidation = DBCheckboxValidation.NoValidation,
+    validation: DBValidation = DBValidation.NoValidation,
     disabled: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val validationText = remember(validation, message, showMessage) {
+    val validationText: String? = remember(validation, message, showMessage) {
         when (validation) {
-            is DBCheckboxValidation.Invalid -> validation.text
-            is DBCheckboxValidation.Valid -> validation.text
-            DBCheckboxValidation.NoValidation -> message.takeIf { showMessage }
+            is DBValidation.Invalid -> validation.text
+            is DBValidation.Valid -> validation.text
+            DBValidation.NoValidation -> message.takeIf { showMessage }
         }
     }
 
     val validationSemantic = remember(validation) {
         when (validation) {
-            is DBCheckboxValidation.Invalid -> DBSemantic.CRITICAL
-            is DBCheckboxValidation.Valid -> DBSemantic.SUCCESSFUL
+            is DBValidation.Invalid -> DBSemantic.CRITICAL
+            is DBValidation.Valid -> DBSemantic.SUCCESSFUL
             else -> DBSemantic.ADAPTIVE
         }
     }
@@ -128,7 +129,7 @@ fun DBCheckbox(
             .triStateToggleable(
                 state = triState,
                 interactionSource = interactionSource,
-                indication = ripple(color = validation.checkboxColorTransparentPressed),
+                indication = ripple(color = validation.backgroundColorTransparentPressed),
                 enabled = !disabled,
                 role = Role.Checkbox,
                 onClick = onClick,
@@ -178,17 +179,11 @@ fun DBCheckbox(
     }
 }
 
-sealed interface DBCheckboxValidation {
-    data class Invalid(val text: String) : DBCheckboxValidation
-    data class Valid(val text: String) : DBCheckboxValidation
-    data object NoValidation : DBCheckboxValidation
-}
-
-@Preview(heightDp = 1400)
+@Preview(heightDp = 1500)
 @Composable
 private fun DBCheckboxPreview() {
-    val invalidState = DBCheckboxValidation.Invalid("Invalid Message")
-    val validState = DBCheckboxValidation.Valid("Valid Message")
+    val invalidState = DBValidation.Invalid("Invalid Message")
+    val validState = DBValidation.Valid("Valid Message")
     BasePreview(
         component = "DBCheckbox",
         preview = {

@@ -3,7 +3,7 @@ package com.dbsystel.designsystem.components.core.extensions
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 
-fun Modifier.withAlphaForDisabledState(disabled: Boolean): Modifier = this.then(
+internal fun Modifier.withAlphaForDisabledState(disabled: Boolean): Modifier = this.then(
     if (!disabled) {
         Modifier.alpha(1f)
     } else {

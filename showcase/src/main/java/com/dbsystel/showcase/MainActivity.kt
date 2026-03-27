@@ -28,10 +28,10 @@ import com.dbsystel.designsystem.components.button.DBButton
 import com.dbsystel.designsystem.components.button.DBButtonVariant
 import com.dbsystel.designsystem.components.card.DBCard
 import com.dbsystel.designsystem.components.checkbox.DBCheckbox
-import com.dbsystel.designsystem.components.checkbox.DBCheckboxValidation
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.infotext.DBInfotext
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
@@ -115,8 +115,8 @@ fun DemoContent() {
     var checked by remember { mutableStateOf(false) }
     var indeterminate by remember { mutableStateOf(true) }
     var checkboxValidationState by remember {
-        mutableStateOf<DBCheckboxValidation>(
-            DBCheckboxValidation.NoValidation
+        mutableStateOf<DBValidation>(
+            DBValidation.NoValidation
         )
     }
     DBCard {
@@ -201,9 +201,9 @@ fun DemoContent() {
                 variant = DBButtonVariant.FILLED,
                 onClick = {
                     checkboxValidationState = when (checkboxValidationState) {
-                        DBCheckboxValidation.NoValidation -> DBCheckboxValidation.Valid("Success message")
-                        is DBCheckboxValidation.Valid -> DBCheckboxValidation.Invalid("Error message")
-                        is DBCheckboxValidation.Invalid -> DBCheckboxValidation.NoValidation
+                        DBValidation.NoValidation -> DBValidation.Valid("Success message")
+                        is DBValidation.Valid -> DBValidation.Invalid("Error message")
+                        is DBValidation.Invalid -> DBValidation.NoValidation
                     }
                 },
             )
