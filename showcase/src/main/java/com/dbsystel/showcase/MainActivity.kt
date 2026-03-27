@@ -251,7 +251,8 @@ private fun DemoAccordions() {
                 content = {
                     Text(
                         "Content $it",
-                        style = DBTheme.typography.bodyMd
+                        style = DBTheme.typography.bodyMd,
+                        color = DBTheme.activeColor.onBgBasicEmphasis100Default,
                     )
                 },
             )
