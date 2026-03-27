@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.dbsystel.designsystem.components.accordion.DBAccordion
+import com.dbsystel.designsystem.components.accordion.DBAccordionBehavior
+import com.dbsystel.designsystem.components.accordion.DBAccordionItem
+import com.dbsystel.designsystem.components.accordion.DBAccordionVariant
 import com.dbsystel.designsystem.components.badge.DBBadge
 import com.dbsystel.designsystem.components.badge.DBBadgeContent
 import com.dbsystel.designsystem.components.badge.DBBadgeContent.Icon
@@ -33,6 +40,7 @@ import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.infotext.DBInfotext
+import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
 
@@ -49,7 +57,13 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
 
                     SemanticView(Modifier.padding(innerPadding)) {
-                        DemoContent()
+                        Column(
+                            modifier = Modifier.verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedLg),
+                        ) {
+                            DemoContent()
+                            DemoAccordions()
+                        }
                     }
                 }
             }
@@ -58,7 +72,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SemanticView(
+private fun SemanticView(
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -156,7 +170,7 @@ fun DemoContent() {
                 DBBadge(
                     content = Icon(
                         DBIcon(
-                            imageVector = ImageVector.vectorResource(com.dbsystel.designsystem.foundation.R.drawable.sample_vector),
+                            imageVector = ImageVector.vectorResource(R.drawable.sample_vector),
                             contentDescription = null,
                         )
                     ),
@@ -209,4 +223,39 @@ fun DemoContent() {
             )
         }
     }
+}
+
+@Composable
+private fun DemoAccordions() {
+    DBAccordion(
+        modifier = Modifier,
+        items = (1..3).map {
+            DBAccordionItem(
+                title = "Item $it",
+                content = {
+                    Text(
+                        "Content $it",
+                        style = DBTheme.typography.bodyMd
+                    )
+                },
+            )
+        },
+    )
+    DBAccordion(
+        modifier = Modifier.fillMaxWidth(),
+        behavior = DBAccordionBehavior.SINGLE,
+        variant = DBAccordionVariant.CARD,
+        items = (1..3).map {
+            DBAccordionItem(
+                title = "Item $it",
+                content = {
+                    Text(
+                        "Content $it",
+                        style = DBTheme.typography.bodyMd,
+                        color = DBTheme.activeColor.onBgBasicEmphasis100Default,
+                    )
+                },
+            )
+        },
+    )
 }
