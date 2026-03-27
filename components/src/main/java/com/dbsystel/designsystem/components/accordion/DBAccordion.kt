@@ -9,7 +9,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -76,10 +75,6 @@ fun DBAccordion(
         verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedSm),
     ) {
         items.forEachIndexed { index, (title, content) ->
-            val chevronAngle by animateFloatAsState(
-                targetValue = if (openedItems.contains(index)) 180f else 0f,
-                label = "Chevron rotation for index $index",
-            )
             Column(
                 modifier = if (variant == DBAccordionVariant.CARD)
                     Modifier
@@ -91,7 +86,7 @@ fun DBAccordion(
                         .clip(shape)
                 else Modifier
             ) {
-                Box(
+                DBAccordionHeader(
                     modifier = Modifier
                         .fillMaxWidth()
                         .then(
@@ -118,27 +113,10 @@ fun DBAccordion(
                                             }
                                         },
                                     )
-                        )
-                        .padding(DBTheme.dimensions.spacing.fixedMd),
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedMd),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = title,
-                            style = DBTheme.typography.bodyMd,
-                            color = DBTheme.activeColor.Basic.Text.Default.Default,
-                        )
-                        Icon(
-                            modifier = Modifier.graphicsLayer(rotationZ = chevronAngle),
-                            imageVector = ImageVector.vectorResource(R.drawable.dbux_ic_chevron_vertical),
-                            contentDescription = null,
-                            tint = DBTheme.activeColor.onBgBasicEmphasis100Default,
-                        )
-                    }
-                }
+                        ),
+                    title = title,
+                    isOpen = openedItems.contains(index),
+                )
 
                 AnimatedVisibility(
                     visible = openedItems.contains(index),
@@ -177,6 +155,38 @@ enum class DBAccordionVariant {
 enum class DBAccordionBehavior {
     MULTIPLE,
     SINGLE;
+}
+
+@Composable
+private fun DBAccordionHeader(
+    modifier: Modifier,
+    title: String,
+    isOpen: Boolean,
+) {
+    val chevronAngle by animateFloatAsState(
+        targetValue = if (isOpen) 180f else 0f,
+        label = "Chevron rotation",
+    )
+
+    Row(
+        modifier = modifier
+            .padding(DBTheme.dimensions.spacing.fixedMd),
+        horizontalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedMd),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = title,
+            style = DBTheme.typography.bodyMd,
+            color = DBTheme.activeColor.Basic.Text.Default.Default,
+        )
+        Icon(
+            modifier = Modifier.graphicsLayer(rotationZ = chevronAngle),
+            imageVector = ImageVector.vectorResource(R.drawable.dbux_ic_chevron_vertical),
+            contentDescription = null,
+            tint = DBTheme.activeColor.onBgBasicEmphasis100Default,
+        )
+    }
 }
 
 @Preview(widthDp = 500, heightDp = 1400)
