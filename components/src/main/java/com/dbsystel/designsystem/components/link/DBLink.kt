@@ -23,7 +23,7 @@ import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.withAlphaForDisabledState
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.link.extensions.color
 import com.dbsystel.designsystem.components.link.extensions.iconRes
 import com.dbsystel.designsystem.components.link.extensions.iconSize
@@ -68,7 +68,7 @@ fun DBLink(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .withAlphaForDisabledState(disabled)
             .clickable(
                 enabled = !disabled,
@@ -77,8 +77,7 @@ fun DBLink(
                 role = Role.Button,
                 indication = null,
             )
-            .heightIn(min = size.iconSize)
-            .then(modifier),
+            .heightIn(min = size.iconSize),
         horizontalArrangement = Arrangement.spacedBy(size.paddingH),
         verticalAlignment = Alignment.CenterVertically,
     ) {

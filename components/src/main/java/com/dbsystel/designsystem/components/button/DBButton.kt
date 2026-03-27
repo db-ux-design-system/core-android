@@ -40,7 +40,7 @@ import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.withAlphaForDisabledState
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
@@ -98,10 +98,9 @@ fun DBButton(
             color = DBTheme.activeColor.onBgBasicEmphasis100Default
         ) else null,
         shape = shape,
-        modifier = Modifier
+        modifier = modifier
             .then(if (iconOnly) Modifier.size(size.size) else Modifier.height(size.size))
-            .withAlphaForDisabledState(disabled)
-            .then(modifier),
+            .withAlphaForDisabledState(disabled),
         onClick = onClick,
         enabled = !disabled,
         colors = ButtonColors(

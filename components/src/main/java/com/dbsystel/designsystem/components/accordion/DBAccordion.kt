@@ -36,9 +36,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dbsystel.designsystem.components.R
 import com.dbsystel.designsystem.components.accordion.preview.previewName
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
-import com.dbsystel.designsystem.components.core.withAlphaForDisabledState
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
 /**
