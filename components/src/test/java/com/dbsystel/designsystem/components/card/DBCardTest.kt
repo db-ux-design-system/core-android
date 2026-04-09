@@ -62,6 +62,23 @@ class DBCardTest : PaparazziTest() {
                             }
                         }
                     ),
+                    BasePreviewProperties(
+                        property = "Behavior",
+                        views = DBCardBehavior.entries.map { behavior ->
+                            behavior.previewName to {
+                                DBCard(
+                                    modifier = Modifier.size(cardSize),
+                                    behavior = behavior,
+                                    onClick = {},
+                                ) {
+                                    Box(
+                                        contentAlignment = Alignment.Center,
+                                        modifier = Modifier.fillMaxSize(),
+                                    ) { }
+                                }
+                            }
+                        }
+                    ),
                 ),
             )
         }
