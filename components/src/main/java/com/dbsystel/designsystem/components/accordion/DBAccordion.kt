@@ -136,7 +136,7 @@ fun DBAccordion(
                 }
             }
             if (variant == DBAccordionVariant.DIVIDER && index < items.size - 1) {
-                HorizontalDivider()
+                HorizontalDivider(color = DBTheme.activeColor.onBgBasicEmphasis60Default)
             }
         }
     }
