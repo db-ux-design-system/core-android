@@ -30,11 +30,17 @@ internal data class BasePreviewProperties(
     val views: List<Pair<String, @Composable () -> Unit>>,
 )
 
+internal data class BasePreviewExamples(
+    val property: String,
+    val views: List<@Composable () -> Unit>,
+)
+
 @Composable
 internal fun BasePreview(
     component: String,
     preview: @Composable RowScope.() -> Unit,
     properties: List<BasePreviewProperties>,
+    examples: List<BasePreviewExamples> = emptyList(),
 ) {
     DBTheme {
         Column(
@@ -49,6 +55,7 @@ internal fun BasePreview(
             )
             SectionPreview(preview)
             SectionProperties(properties)
+            SectionExamples(examples)
         }
     }
 }
@@ -144,6 +151,44 @@ private fun SectionProperties(
                                 )
                                 view()
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SectionExamples(
+    examples: List<BasePreviewExamples>,
+) {
+    if (examples.isEmpty()) return
+    Column(
+        verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedMd),
+    ) {
+        Text(
+            text = "✨ Examples",
+            style = DBTheme.typography.h3,
+        )
+        examples.forEach { (property, views) ->
+            Column(
+                verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixed2xs),
+            ) {
+                Text(
+                    text = property,
+                    style = DBTheme.typography.bodySm,
+                )
+                DBCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    spacing = DBCardSpacing.SMALL,
+                ) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedXl),
+                        verticalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedMd),
+                    ) {
+                        views.forEach { view ->
+                            view()
                         }
                     }
                 }

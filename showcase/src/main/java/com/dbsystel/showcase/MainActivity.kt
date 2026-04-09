@@ -40,6 +40,7 @@ import com.dbsystel.designsystem.components.core.DBSemantic
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.infotext.DBInfotext
+import com.dbsystel.designsystem.components.switch.DBSwitch
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 import com.dbsystel.designsystem.foundation.theme.core.DBAdaptiveLayout
@@ -126,6 +127,7 @@ private fun SemanticView(
 
 @Composable
 fun DemoContent() {
+    var checkedSwitch by remember { mutableStateOf(false) }
     var checked by remember { mutableStateOf(false) }
     var indeterminate by remember { mutableStateOf(true) }
     var checkboxValidationState by remember {
@@ -198,6 +200,29 @@ fun DemoContent() {
                 )
             }
 
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                DBSwitch(
+                    checked = checkedSwitch,
+                    label = "Switch",
+                    validation = checkboxValidationState,
+                    message = "Message",
+                    showMessage = true,
+                    onCheckedChange = { checkedSwitch = !checkedSwitch },
+                )
+
+                DBSwitch(
+                    checked = checkedSwitch,
+                    label = "Custom Visual Aid",
+                    visualAid = true,
+                    iconLeading = ImageVector.vectorResource(R.drawable.preview_light),
+                    iconTrailing = ImageVector.vectorResource(R.drawable.preview_dark),
+                    validation = checkboxValidationState,
+                    onCheckedChange = { checkedSwitch = !checkedSwitch },
+                )
+            }
+
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -235,7 +260,8 @@ private fun DemoAccordions() {
                 content = {
                     Text(
                         "Content $it",
-                        style = DBTheme.typography.bodyMd
+                        style = DBTheme.typography.bodyMd,
+                        color = DBTheme.activeColor.onBgBasicEmphasis100Default,
                     )
                 },
             )
