@@ -61,6 +61,7 @@ import com.dbsystel.designsystem.components.switch.extensions.animatedBackground
 import com.dbsystel.designsystem.components.switch.extensions.animatedBorderColor
 import com.dbsystel.designsystem.components.switch.extensions.animatedThumbColor
 import com.dbsystel.designsystem.components.switch.extensions.animatedThumbSize
+import com.dbsystel.designsystem.components.switch.extensions.textStyle
 import com.dbsystel.designsystem.components.switch.preview.previewName
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
@@ -204,7 +205,7 @@ private fun DBSwitchWithLabel(
         if (showLabelLeading && !label.isNullOrBlank()) {
             Text(
                 text = "$label${if (required) "*" else ""}",
-                style = DBTheme.typography.bodyMd,
+                style = size.textStyle,
                 color = validation.textColor(pressed = pressed),
             )
         }
@@ -254,7 +255,7 @@ private fun DBSwitchWithLabel(
         if (showLabelTrailing && !label.isNullOrBlank()) {
             Text(
                 text = "$label${if (required) "*" else ""}",
-                style = DBTheme.typography.bodyMd,
+                style = size.textStyle,
                 color = validation.textColor(pressed = pressed),
             )
         }

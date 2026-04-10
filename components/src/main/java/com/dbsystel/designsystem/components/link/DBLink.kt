@@ -41,7 +41,7 @@ import com.dbsystel.designsystem.components.link.preview.previewName
  * @param content Content type of the link (external or internal link).
  * @param variant Visual representation of the link.
  * @param size Size of the link.
- * @param enabled Controls the enabled state of this link. When false, this component will not
+ * @param disabled Controls the disabled state of this link. When true, this component will not
  * respond to user input, and it will appear visually disabled and disabled to accessibility services.
  * @param showIcon Control the visibility of the content type icon.
  * @param onClick Called when this link is clicked.
