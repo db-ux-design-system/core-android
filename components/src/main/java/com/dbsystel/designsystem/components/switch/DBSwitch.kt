@@ -50,6 +50,7 @@ import com.dbsystel.designsystem.components.R
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.core.extensions.textColor
+import com.dbsystel.designsystem.components.core.extensions.textStyle
 import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewExamples
@@ -61,7 +62,6 @@ import com.dbsystel.designsystem.components.switch.extensions.animatedBackground
 import com.dbsystel.designsystem.components.switch.extensions.animatedBorderColor
 import com.dbsystel.designsystem.components.switch.extensions.animatedThumbColor
 import com.dbsystel.designsystem.components.switch.extensions.animatedThumbSize
-import com.dbsystel.designsystem.components.switch.extensions.textStyle
 import com.dbsystel.designsystem.components.switch.preview.previewName
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
@@ -200,7 +200,7 @@ private fun DBSwitchWithLabel(
                 indication = null,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixed2xs),
+        horizontalArrangement = Arrangement.spacedBy(DBTheme.dimensions.spacing.fixedXs),
     ) {
         if (showLabelLeading && !label.isNullOrBlank()) {
             Text(

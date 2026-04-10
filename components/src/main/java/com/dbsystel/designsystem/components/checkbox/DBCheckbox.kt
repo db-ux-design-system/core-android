@@ -30,13 +30,13 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.components.checkbox.extensions.checkboxColors
-import com.dbsystel.designsystem.components.checkbox.extensions.checkboxSize
-import com.dbsystel.designsystem.components.checkbox.extensions.spacing
-import com.dbsystel.designsystem.components.checkbox.extensions.textStyle
 import com.dbsystel.designsystem.components.core.DBSize
 import com.dbsystel.designsystem.components.core.DBValidation
 import com.dbsystel.designsystem.components.core.extensions.backgroundColorTransparentPressed
+import com.dbsystel.designsystem.components.core.extensions.baseSize
+import com.dbsystel.designsystem.components.core.extensions.spacing
 import com.dbsystel.designsystem.components.core.extensions.textColor
+import com.dbsystel.designsystem.components.core.extensions.textStyle
 import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
@@ -100,7 +100,7 @@ fun DBCheckbox(
     var lineHeight by remember { mutableFloatStateOf(0f) }
     var calculatedPadding by remember { mutableStateOf(0.dp) }
     with(LocalDensity.current) {
-        calculatedPadding = (size.checkboxSize.toPx() - lineHeight).toDp() / 2f
+        calculatedPadding = (size.baseSize.toPx() - lineHeight).toDp() / 2f
     }
     val textPadding by remember(calculatedPadding) { derivedStateOf { calculatedPadding } }
     val interactionSource = remember { MutableInteractionSource() }
@@ -123,7 +123,7 @@ fun DBCheckbox(
             horizontalArrangement = Arrangement.spacedBy(size.spacing),
         ) {
             TriStateCheckbox(
-                modifier = Modifier.size(size.checkboxSize),
+                modifier = Modifier.size(size.baseSize),
                 state = triState,
                 enabled = !disabled,
                 interactionSource = interactionSource,

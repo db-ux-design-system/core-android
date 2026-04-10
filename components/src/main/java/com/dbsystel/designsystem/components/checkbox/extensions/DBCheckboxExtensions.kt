@@ -18,31 +18,6 @@ import com.dbsystel.designsystem.components.core.extensions.backgroundColorTrans
 import com.dbsystel.designsystem.components.core.extensions.backgroundColorTransparentPressed
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
-internal val DBSize.checkboxSize: Dp
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        DBSize.MEDIUM -> 24.dp
-        DBSize.SMALL -> 20.dp
-    }
-
-internal val DBSize.spacing: Dp
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        DBSize.MEDIUM -> DBTheme.dimensions.spacing.fixedXs
-        DBSize.SMALL -> DBTheme.dimensions.spacing.fixed2xs
-    }
-
-internal val DBSize.textStyle: TextStyle
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        DBSize.MEDIUM -> DBTheme.typography.bodyMd
-        DBSize.SMALL -> DBTheme.typography.bodySm
-    }
-
-
 @Composable
 internal fun DBValidation.checkboxColors(
     checked: Boolean,

@@ -76,28 +76,4 @@ internal val DBSize.paddingH: Dp
         MEDIUM -> DBTheme.dimensions.spacing.fixedMd
         SMALL -> DBTheme.dimensions.spacing.fixedSm
     }
-
-internal val DBSize.spacing: Dp
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        MEDIUM -> DBTheme.dimensions.spacing.fixedXs
-        SMALL -> DBTheme.dimensions.spacing.fixed2xs
-    }
-
-internal val DBSize.iconSize: Dp
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        MEDIUM -> 24.dp
-        SMALL -> 20.dp
-    }
-
-internal val DBSize.textStyle: TextStyle
-    @Composable
-    @ReadOnlyComposable
-    get() = when (this) {
-        MEDIUM -> DBTheme.typography.bodyMd
-        SMALL -> DBTheme.typography.bodySm
-    }
 // endregion

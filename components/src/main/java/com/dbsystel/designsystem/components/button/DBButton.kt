@@ -28,19 +28,19 @@ import androidx.compose.ui.unit.dp
 import com.dbsystel.designsystem.components.button.extensions.background
 import com.dbsystel.designsystem.components.button.extensions.color
 import com.dbsystel.designsystem.components.button.extensions.hasBorder
-import com.dbsystel.designsystem.components.button.extensions.iconSize
 import com.dbsystel.designsystem.components.button.extensions.paddingFull
 import com.dbsystel.designsystem.components.button.extensions.paddingH
 import com.dbsystel.designsystem.components.button.extensions.size
-import com.dbsystel.designsystem.components.button.extensions.spacing
-import com.dbsystel.designsystem.components.button.extensions.textStyle
 import com.dbsystel.designsystem.components.button.preview.previewName
 import com.dbsystel.designsystem.components.core.DBIcon
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.extensions.baseSize
+import com.dbsystel.designsystem.components.core.extensions.spacing
+import com.dbsystel.designsystem.components.core.extensions.textStyle
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.foundation.R
 import com.dbsystel.designsystem.foundation.theme.DBTheme
 
@@ -122,7 +122,7 @@ fun DBButton(
         ) {
             if (showIcon && iconPosition == DBButtonIconPosition.LEADING && icon != null) {
                 Icon(
-                    modifier = Modifier.size(size.iconSize),
+                    modifier = Modifier.size(size.baseSize),
                     imageVector = icon.imageVector,
                     contentDescription = icon.contentDescription,
                 )
@@ -135,7 +135,7 @@ fun DBButton(
             }
             if (showIcon && iconPosition == DBButtonIconPosition.TRAILING && icon != null) {
                 Icon(
-                    modifier = Modifier.size(size.iconSize),
+                    modifier = Modifier.size(size.baseSize),
                     imageVector = icon.imageVector,
                     contentDescription = icon.contentDescription,
                 )

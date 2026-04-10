@@ -20,16 +20,16 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import com.dbsystel.designsystem.components.core.DBSize
+import com.dbsystel.designsystem.components.core.extensions.baseSize
+import com.dbsystel.designsystem.components.core.extensions.textStyle
+import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.core.preview.BasePreview
 import com.dbsystel.designsystem.components.core.preview.BasePreviewProperties
 import com.dbsystel.designsystem.components.core.preview.previewName
-import com.dbsystel.designsystem.components.core.extensions.withAlphaForDisabledState
 import com.dbsystel.designsystem.components.link.extensions.color
 import com.dbsystel.designsystem.components.link.extensions.iconRes
-import com.dbsystel.designsystem.components.link.extensions.iconSize
 import com.dbsystel.designsystem.components.link.extensions.paddingH
 import com.dbsystel.designsystem.components.link.extensions.pressedColor
-import com.dbsystel.designsystem.components.link.extensions.textStyle
 import com.dbsystel.designsystem.components.link.preview.previewName
 
 /**
@@ -77,7 +77,7 @@ fun DBLink(
                 role = Role.Button,
                 indication = null,
             )
-            .heightIn(min = size.iconSize),
+            .heightIn(min = size.baseSize),
         horizontalArrangement = Arrangement.spacedBy(size.paddingH),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -88,7 +88,7 @@ fun DBLink(
             color = linkColor,
         )
         if (showIcon) Icon(
-            modifier = Modifier.size(size.iconSize),
+            modifier = Modifier.size(size.baseSize),
             painter = painterResource(content.iconRes),
             contentDescription = content.name,
             tint = linkColor,
