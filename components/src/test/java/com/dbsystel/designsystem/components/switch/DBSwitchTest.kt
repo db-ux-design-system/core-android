@@ -61,13 +61,11 @@ class DBSwitchTest : PaparazziTest() {
                             DBSwitch(
                                 label = "Label",
                                 validation = validation,
-                                visualAid = true,
                                 onCheckedChange = { _ -> },
                             )
                             DBSwitch(
                                 checked = true,
                                 label = "Label",
-                                visualAid = true,
                                 validation = validation,
                                 onCheckedChange = { _ -> },
                             )
