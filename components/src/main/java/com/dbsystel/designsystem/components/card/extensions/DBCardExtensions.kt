@@ -37,4 +37,13 @@ internal val DBCardElevation.color: Color
         LEVEL_2 -> DBTheme.activeColor.bgBasicLevel2Default
         LEVEL_3 -> DBTheme.activeColor.bgBasicLevel3Default
     }
+
+internal val DBCardElevation.colorPressed: Color
+    @Composable
+    @ReadOnlyComposable
+    get() = when (this) {
+        LEVEL_1 -> DBTheme.activeColor.bgBasicLevel1Pressed
+        LEVEL_2 -> DBTheme.activeColor.bgBasicLevel2Pressed
+        LEVEL_3 -> DBTheme.activeColor.bgBasicLevel3Pressed
+    }
 // endregion
